@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_cnt =4
 let g:netrw_dirhist_1='/Users/toby/Workspace/scratchie-backend'
 let g:netrw_dirhist_2='/Users/toby/Workspace/corepush'
 let g:netrw_dirhist_3='/Users/toby/Workspace/corepush-ios-client/CorePush.xcodeproj'
+let g:netrw_dirhist_4='/Users/toby/Workspace/carnivallabs.com/config'
