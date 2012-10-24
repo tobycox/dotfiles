@@ -9,3 +9,4 @@ set laststatus=2
 let g:Powerline_symbols = 'fancy'
 filetype plugin on
 let mapleader = ","
+map <leader>t :CommandT<CR>
