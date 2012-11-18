@@ -10,3 +10,6 @@ let g:Powerline_symbols = 'fancy'
 filetype plugin on
 let mapleader = ","
 map <leader>t :CommandT<CR>
+set foldmethod=syntax
+runtime macros/matchit.vim
+set syntax=on
