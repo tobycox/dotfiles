@@ -1,9 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
-let g:netrw_dirhist_1='/Users/toby/Workspace/tobycox.com'
-let g:netrw_dirhist_2='/Users/toby/Workspace/carnival-competitions'
-let g:netrw_dirhist_3='/Users/toby/Workspace/tobycox.com'
-let g:netrw_dirhist_4='/Users/toby/Workspace/carnival-competitions'
-let g:netrw_dirhist_5='/Users/toby/Workspace/1d-vip-web'
-let g:netrw_dirhist_6='/Users/toby/Workspace/carnival-competitions'
-let g:netrw_dirhist_7='/Users/toby/Workspace/stripe-rspec'
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/Users/toby/Workspace/stripe-rspec'
+let g:netrw_dirhist_2='/Users/toby/Workspace/corepush'
+let g:netrw_dirhist_3='/Users/toby/Workspace/rspec-stripe'
