@@ -13,7 +13,6 @@ let mapleader = ","
 map <leader>t :CommandT<CR>
 map <leader>r :MRU<CR>
 set foldmethod=syntax
-set foldlevelstart=1
 runtime macros/matchit.vim
 set syntax=on
 set complete=.,w,b,u,t
