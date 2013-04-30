@@ -12,7 +12,17 @@ filetype plugin on
 let mapleader = ","
 map <leader>t :CommandT<CR>
 map <leader>r :MRU<CR>
-set foldmethod=syntax
 runtime macros/matchit.vim
 set syntax=on
 set complete=.,w,b,u,t
+set nobackup       #no backup files
+set nowritebackup  #only in case you don't want a backup file while editing
+set noswapfile     #no swap files
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
+set splitbelow
+set splitright
+nnoremap <C-S> <C-W><C-S>
+nnoremap <C-Q> <C-W><C-Q>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
