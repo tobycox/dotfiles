@@ -15,9 +15,9 @@ map <leader>r :MRU<CR>
 runtime macros/matchit.vim
 set syntax=on
 set complete=.,w,b,u,t
-set nobackup       #no backup files
-set nowritebackup  #only in case you don't want a backup file while editing
-set noswapfile     #no swap files
+set nobackup
+set nowritebackup
+set noswapfile
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
 set splitbelow
