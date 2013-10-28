@@ -28,3 +28,15 @@
 [submodule ".vim/bundle/handlebars"]
 	path = .vim/bundle/handlebars
 	url = git://github.com/nono/vim-handlebars.git
+[submodule ".vim/bundle/lightline.vim"]
+	path = .vim/bundle/lightline.vim
+	url = https://github.com/itchyny/lightline.vim.git
+[submodule ".vim/bundle/ctrlp.vim"]
+	path = .vim/bundle/ctrlp.vim
+	url = https://github.com/kien/ctrlp.vim.git
+[submodule ".vim/bundle/nerdtree"]
+	path = .vim/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule ".vim/bundle/vim-numbertoggle"]
+	path = .vim/bundle/vim-numbertoggle
+	url = https://github.com/jeffkreeftmeijer/vim-numbertoggle.git
