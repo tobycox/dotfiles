@@ -20,6 +20,7 @@ set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
 set splitbelow
 set splitright
+set number
 nnoremap <C-S> <C-W><C-S>
 nnoremap <C-Q> <C-W><C-Q>
 nnoremap <C-L> <C-W><C-L>
