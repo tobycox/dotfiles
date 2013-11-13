@@ -1,6 +1,7 @@
-map <F2> :NERDTreeToggle<CR>
 call pathogen#infect()
 call pathogen#helptags()
+syntax on
+filetype plugin indent on
 set expandtab
 set tabstop=2
 set shiftwidth=2
@@ -10,8 +11,8 @@ filetype plugin on
 let mapleader = ","
 map <leader>t :CtrlP<CR>
 map <leader>r :MRU<CR>
+nmap <silent> <C-D> :NERDTreeToggle<CR>
 runtime macros/matchit.vim
-syntax on
 set complete=.,w,b,u,t
 set nobackup
 set nowritebackup
