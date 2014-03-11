@@ -12,6 +12,8 @@ let mapleader = ","
 map <leader>t :CtrlP<CR>
 map <leader>r :MRU<CR>
 nmap <silent> <C-D> :NERDTreeToggle<CR>
+nmap <silent> <leader>d <Plug>DashSearch
+nmap <silent> <leader><leader> <C-^>
 runtime macros/matchit.vim
 set complete=.,w,b,u,t
 set nobackup
@@ -27,9 +29,38 @@ nnoremap <C-Q> <C-W><C-Q>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 set laststatus=2
+set guifont=Monaco\ for\ Powerline:h12
 let g:lightline = {
-        \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'wombat',
+      \ 'component': {
+      \   'readonly': '%{&readonly?"⭤":""}',
+      \ },
+      \ 'separator': { 'left': '⮀', 'right': '⮂' },
+      \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
       \ }
 if !has('gui_running')
   set t_Co=256
 endif
+let g:rspec_command = 'call Send_to_Tmux("zeus rspec {spec}\n")'
+
+" vim-rspec mappings
+map <Leader>s :call RunCurrentSpecFile()<CR>
+map <Leader>c :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
+"
+" Automatic folding
+set foldmethod=syntax
+set nofoldenable
+
+" Fold by pressing space
+nnoremap <SPACE> za
+nnoremap <leader><SPACE> zA
+
+" Highlight search
+:set hlsearch
+
+" Highlight trailing whitespace
+autocmd InsertEnter * syn clear EOLWS | syn match EOLWS excludenl /\s\+\%#\@!$/
+autocmd InsertLeave * syn clear EOLWS | syn match EOLWS excludenl /\s\+$/
+highlight EOLWS ctermbg=red guibg=red
