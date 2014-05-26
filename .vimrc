@@ -41,7 +41,7 @@ let g:lightline = {
 if !has('gui_running')
   set t_Co=256
 endif
-let g:rspec_command = 'call Send_to_Tmux("zeus rspec {spec}\n")'
+let g:rspec_command = 'call Send_to_Tmux("spring rspec {spec}\n")'
 
 " vim-rspec mappings
 map <Leader>s :call RunCurrentSpecFile()<CR>
@@ -64,3 +64,7 @@ nnoremap <leader><SPACE> zA
 autocmd InsertEnter * syn clear EOLWS | syn match EOLWS excludenl /\s\+\%#\@!$/
 autocmd InsertLeave * syn clear EOLWS | syn match EOLWS excludenl /\s\+$/
 highlight EOLWS ctermbg=red guibg=red
+
+" Highlighting
+au BufRead,BufNewFile Gruntfile setfiletype javascript
+
