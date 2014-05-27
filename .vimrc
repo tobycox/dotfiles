@@ -67,4 +67,6 @@ highlight EOLWS ctermbg=red guibg=red
 
 " Highlighting
 au BufRead,BufNewFile Gruntfile setfiletype javascript
-
+augroup filetypedetect 
+  au BufNewFile,BufRead *.pig set filetype=pig syntax=pig 
+augroup END
