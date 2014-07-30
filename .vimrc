@@ -70,3 +70,10 @@ au BufRead,BufNewFile Gruntfile setfiletype javascript
 augroup filetypedetect 
   au BufNewFile,BufRead *.pig set filetype=pig syntax=pig 
 augroup END
+
+" Fugitive
+nmap <leader>gs :Gstatus<cr>
+nmap <leader>gc :Gcommit<cr>
+nmap <leader>ga :Gwrite<cr>
+nmap <leader>gl :Glog<cr>
+nmap <leader>gd :Gdiff<cr>
