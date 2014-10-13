@@ -77,3 +77,6 @@ nmap <leader>gc :Gcommit<cr>
 nmap <leader>ga :Gwrite<cr>
 nmap <leader>gl :Glog<cr>
 nmap <leader>gd :Gdiff<cr>
+
+" Markdown
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
