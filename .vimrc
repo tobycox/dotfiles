@@ -104,3 +104,6 @@ else
   map <C-k> <C-w>k
   map <C-l> <C-w>l
 endif
+
+" Nerdcommend
+let g:NERDSpaceDelims=1
