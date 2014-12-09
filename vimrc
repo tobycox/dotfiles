@@ -1,5 +1,30 @@
-call pathogen#infect()
-call pathogen#helptags()
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" Packages
+Plugin 'kien/ctrlp.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'tpope/vim-rails'
+Plugin 'pangloss/vim-javascript'
+Plugin 'tpope/vim-surround'
+Plugin 'vim-scripts/mru.vim'
+Plugin 'ervandew/supertab'
+Plugin 'itchyny/lightline.vim'
+Plugin 'jeffkreeftmeijer/vim-numbertoggle'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'scrooloose/syntastic'
+Plugin 'thoughtbot/vim-rspec'
+Plugin 'tpope/vim-fugitive'
+Plugin 'rking/ag.vim'
+Plugin 'jgdavey/tslime.vim'
+
+call vundle#end()
+filetype plugin indent on
+
 syntax on
 filetype plugin indent on
 set expandtab
@@ -47,17 +72,13 @@ map <Leader>s :call RunCurrentSpecFile()<CR>
 map <Leader>c :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
-"
-" Automatic folding
-set foldmethod=syntax
-set nofoldenable
-
-" Fold by pressing space
-nnoremap <SPACE> za
-nnoremap <leader><SPACE> zA
 
 " Highlight search
+:set incsearch
+:set ignorecase
+:set smartcase
 :set hlsearch
+:nmap \q :nohlsearch<CR>
 
 " Highlight trailing whitespace
 autocmd InsertEnter * syn clear EOLWS | syn match EOLWS excludenl /\s\+\%#\@!$/
@@ -105,5 +126,11 @@ else
   map <C-l> <C-w>l
 endif
 
-" Nerdcommend
+" Nerdcomment
 let g:NERDSpaceDelims=1
+
+" Syntastic
+let g:syntastic_mode_map = { 'mode': 'passive',
+      \ 'active_filetypes': ['ruby', 'puppet', 'yaml', 'erlang', 'elixir', 'json', 'tex', 'html', 'javascript'],
+      \ 'passive_filetypes': [] }
+let g:syntastic_ruby_checkers = ['mri', 'rubocop']
