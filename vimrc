@@ -134,3 +134,5 @@ let g:syntastic_mode_map = { 'mode': 'passive',
       \ 'active_filetypes': ['ruby', 'puppet', 'yaml', 'erlang', 'elixir', 'json', 'tex', 'html', 'javascript'],
       \ 'passive_filetypes': [] }
 let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_full_redraws = 1
