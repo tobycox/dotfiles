@@ -21,6 +21,7 @@ Plugin 'thoughtbot/vim-rspec'
 Plugin 'tpope/vim-fugitive'
 Plugin 'rking/ag.vim'
 Plugin 'jgdavey/tslime.vim'
+Plugin 'elixir-lang/vim-elixir'
 
 call vundle#end()
 filetype plugin indent on
@@ -131,8 +132,10 @@ let g:NERDSpaceDelims=1
 
 " Syntastic
 let g:syntastic_mode_map = { 'mode': 'passive',
-      \ 'active_filetypes': ['ruby', 'puppet', 'yaml', 'erlang', 'elixir', 'json', 'tex', 'html', 'javascript'],
+      \ 'active_filetypes': ['ruby', 'puppet', 'yaml', 'json', 'tex', 'html', 'javascript'],
       \ 'passive_filetypes': [] }
 let g:syntastic_ruby_checkers = ['mri', 'rubocop']
 let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_elixir_checkers = ['elixir']
+let g:syntastic_enable_elixir_checker = 1
 let g:syntastic_full_redraws = 1
