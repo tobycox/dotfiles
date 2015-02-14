@@ -22,6 +22,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'rking/ag.vim'
 Plugin 'jgdavey/tslime.vim'
 Plugin 'elixir-lang/vim-elixir'
+Plugin 'scrooloose/nerdtree'
 
 call vundle#end()
 
@@ -128,6 +129,9 @@ endif
 
 " Nerdcomment
 let g:NERDSpaceDelims=1
+
+" NERDTree
+map <C-d> :NERDTreeToggle<CR>
 
 " Syntastic
 let g:syntastic_mode_map = { 'mode': 'passive',
