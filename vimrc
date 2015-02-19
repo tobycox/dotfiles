@@ -23,6 +23,7 @@ Plugin 'rking/ag.vim'
 Plugin 'jgdavey/tslime.vim'
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'scrooloose/nerdtree'
+Bundle 'camelcasemotion'
 
 call vundle#end()
 
