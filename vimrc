@@ -23,6 +23,7 @@ Plugin 'rking/ag.vim'
 Plugin 'jgdavey/tslime.vim'
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'scrooloose/nerdtree'
+Plugin 'mustache/vim-mustache-handlebars'
 Bundle 'camelcasemotion'
 
 call vundle#end()
@@ -38,6 +39,7 @@ filetype plugin on
 let mapleader = ","
 map <leader>t :CtrlP<CR>
 map <leader>r :MRU<CR>
+map <leader>f :Ag 
 nmap <silent> <leader>d <Plug>DashSearch
 nmap <silent> <leader><leader> <C-^>
 runtime macros/matchit.vim
