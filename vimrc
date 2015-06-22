@@ -130,6 +130,11 @@ else
   map <C-l> <C-w>l
 endif
 
+" Tab Navigation
+nnoremap tn :tabnext<CR>
+nnoremap tp :tabprev<CR>
+nnoremap tc :tabnew<CR>
+
 " Nerdcomment
 let g:NERDSpaceDelims=1
 
@@ -145,3 +150,6 @@ let g:syntastic_javascript_checkers = ['jshint']
 let g:syntastic_elixir_checkers = ['elixir']
 let g:syntastic_enable_elixir_checker = 1
 let g:syntastic_full_redraws = 1
+
+" Ctrl-P
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|tmp'
