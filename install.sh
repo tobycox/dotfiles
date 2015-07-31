@@ -2,8 +2,10 @@
 
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
-ln -s ~/dev/dotfiles/vimrc ~/.vimrc
-ln -s ~/dev/dotfiles/tmux.conf ~/.tmux.conf
-ln -s ~/dev/dotfiles/git_template ~/.git_template
+ln -s $PWD/vimrc ~/.vimrc
+ln -s $PWD/tmux.conf ~/.tmux.conf
+ln -s $PWD/git_template ~/.git_template
+
+ln -s $PWD/muxit /usr/local/bin
 
 git config --global init.templatedir '~/.git_template'
