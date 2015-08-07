@@ -16,7 +16,7 @@ Plugin 'ervandew/supertab'
 Plugin 'itchyny/lightline.vim'
 Plugin 'jeffkreeftmeijer/vim-numbertoggle'
 Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'scrooloose/syntastic'
+Plugin 'benekastah/neomake'
 Plugin 'thoughtbot/vim-rspec'
 Plugin 'tpope/vim-fugitive'
 Plugin 'rking/ag.vim'
@@ -141,15 +141,11 @@ let g:NERDSpaceDelims=1
 " NERDTree
 map <C-d> :NERDTreeToggle<CR>
 
-" Syntastic
-let g:syntastic_mode_map = { 'mode': 'passive',
-      \ 'active_filetypes': ['ruby', 'puppet', 'yaml', 'json', 'tex', 'html', 'javascript'],
-      \ 'passive_filetypes': [] }
-let g:syntastic_ruby_checkers = ['mri', 'rubocop']
-let g:syntastic_javascript_checkers = ['jshint']
-let g:syntastic_elixir_checkers = ['elixir']
-let g:syntastic_enable_elixir_checker = 1
-let g:syntastic_full_redraws = 1
+" Neomake
+let g:neomake_elixielixir_enabled_makers = ['elixir']
+let g:neomake_ruby_enabled_makers = ['mri', 'rubocop']
+let g:neomake_javascript_enabled_makers = ['jshint']
+autocmd! BufWritePost * Neomake
 
 " Ctrl-P
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|tmp'
