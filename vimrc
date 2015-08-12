@@ -31,6 +31,7 @@ call vundle#end()
 " Colour theme (default neovim, inherit iTerm2 scheme)
 set background=dark
 
+set hidden
 syntax on
 filetype plugin indent on
 set expandtab
