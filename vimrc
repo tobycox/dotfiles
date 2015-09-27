@@ -31,6 +31,7 @@ call vundle#end()
 " Colour theme (default neovim, inherit iTerm2 scheme)
 set background=dark
 
+set clipboard=unnamed
 set hidden
 syntax on
 filetype plugin indent on
@@ -153,3 +154,7 @@ autocmd! BufWritePost * Neomake
 
 " Ctrl-P
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|tmp'
+
+" Macros
+let @c='"_dwP'
+let @d='oimport code; code.interact(local=locals())'
