@@ -153,7 +153,7 @@ let g:neomake_javascript_enabled_makers = ['jshint']
 autocmd! BufWritePost * Neomake
 
 " Ctrl-P
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|tmp'
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|tmp\|deploy'
 
 " Macros
 let @c='"_dwP'
