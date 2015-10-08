@@ -144,7 +144,7 @@ nnoremap tc :tabnew<CR>
 let g:NERDSpaceDelims=1
 
 " NERDTree
-map <C-d> :NERDTreeToggle<CR>
+map <F2> :NERDTreeToggle<CR>
 
 " Neomake
 let g:neomake_elixielixir_enabled_makers = ['elixir']
@@ -166,4 +166,4 @@ function! RefreshTags()
   let cmd ='ctags -R -o ~/.myctags ' . cwd
   let response = system(cmd)
 endfunction
-map <C-r> :call RefreshTags()<CR>
+map <F5> :call RefreshTags()<CR>
