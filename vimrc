@@ -158,3 +158,12 @@ let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|tmp\|deploy'
 " Macros
 let @c='"_dwP'
 let @d='oimport code; code.interact(local=locals())'
+
+" ctags
+:set tags=~/.myctags
+function! RefreshTags()
+  let cwd = getcwd()
+  let cmd ='ctags -R -o ~/.myctags ' . cwd
+  let response = system(cmd)
+endfunction
+map <C-r> :call RefreshTags()<CR>
