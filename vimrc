@@ -144,7 +144,7 @@ nnoremap tc :tabnew<CR>
 let g:NERDSpaceDelims=1
 
 " NERDTree
-map <F2> :NERDTreeToggle<CR>
+map <C-i> :NERDTreeToggle<CR>
 
 " Neomake
 let g:neomake_elixielixir_enabled_makers = ['elixir']
