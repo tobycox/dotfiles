@@ -29,7 +29,10 @@ Bundle 'camelcasemotion'
 call vundle#end()
 
 " Colour theme (default neovim, inherit iTerm2 scheme)
+set term=xterm-256color
 set background=dark
+set encoding=utf-8
+set t_Co=256
 
 set clipboard=unnamed
 set hidden
@@ -62,14 +65,13 @@ nnoremap <C-Q> <C-W><C-Q>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 set laststatus=2
-set guifont=Monaco\ for\ Powerline:h12
 let g:lightline = {
       \ 'colorscheme': 'wombat',
       \ 'component': {
-      \   'readonly': '%{&readonly?"⭤":""}',
+      \   'readonly': '%{&readonly?"":""}',
       \ },
-      \ 'separator': { 'left': '⮀', 'right': '⮂' },
-      \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' }
       \ }
 if !has('gui_running')
   set t_Co=256
