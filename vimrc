@@ -24,19 +24,21 @@ Plugin 'jgdavey/tslime.vim'
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'scrooloose/nerdtree'
 Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'altercation/vim-colors-solarized'
 Bundle 'camelcasemotion'
 
 call vundle#end()
 
 " Colour theme (default neovim, inherit iTerm2 scheme)
 set term=xterm-256color
-set background=dark
 set encoding=utf-8
 set t_Co=256
+syntax enable
+set background=dark
+colorscheme solarized
 
 set clipboard=unnamed
 set hidden
-syntax on
 filetype plugin indent on
 set expandtab
 set tabstop=2
