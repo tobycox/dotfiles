@@ -30,7 +30,6 @@ Bundle 'camelcasemotion'
 call vundle#end()
 
 " Colour theme (default neovim, inherit iTerm2 scheme)
-set term=xterm-256color
 set encoding=utf-8
 set t_Co=256
 syntax enable
