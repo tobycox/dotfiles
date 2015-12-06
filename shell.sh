@@ -12,3 +12,6 @@ chruby ruby-2.1.3
 
 alias vim="nvim"
 alias vi="nvim"
+alias be="bundle exec"
+
+export EDITOR=vim
