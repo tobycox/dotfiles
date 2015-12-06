@@ -25,6 +25,7 @@ Plugin 'elixir-lang/vim-elixir'
 Plugin 'scrooloose/nerdtree'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'mxw/vim-jsx'
 Bundle 'camelcasemotion'
 
 call vundle#end()
@@ -43,7 +44,6 @@ set expandtab
 set tabstop=2
 set shiftwidth=2
 set autoindent
-set laststatus=2
 filetype plugin on
 let mapleader = ","
 map <leader>t :CtrlP<CR>
@@ -153,10 +153,12 @@ map <C-i> :NERDTreeToggle<CR>
 let g:neomake_elixielixir_enabled_makers = ['elixir']
 let g:neomake_ruby_enabled_makers = ['mri', 'rubocop']
 let g:neomake_javascript_enabled_makers = ['jshint']
+let g:neomake_python_enabled_makers = ['flake8', 'pep8']
 autocmd! BufWritePost * Neomake
 
 " Ctrl-P
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|tmp\|deploy'
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 " Macros
 let @c='"_dwP'
@@ -170,3 +172,8 @@ function! RefreshTags()
   let response = system(cmd)
 endfunction
 map <F5> :call RefreshTags()<CR>
+
+autocmd Filetype javascript setlocal ts=4 sts=4 sw=4
+
+" React
+let g:jsx_ext_required = 0
