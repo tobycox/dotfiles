@@ -17,7 +17,6 @@ Plugin 'itchyny/lightline.vim'
 Plugin 'jeffkreeftmeijer/vim-numbertoggle'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'benekastah/neomake'
-Plugin 'thoughtbot/vim-rspec'
 Plugin 'tpope/vim-fugitive'
 Plugin 'rking/ag.vim'
 Plugin 'jgdavey/tslime.vim'
@@ -26,6 +25,9 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'mxw/vim-jsx'
+Plugin 'wookiehangover/jshint.vim'
+Plugin 'janko-m/vim-test'
+Plugin 'benmills/vimux'
 Bundle 'camelcasemotion'
 
 call vundle#end()
@@ -77,13 +79,6 @@ let g:lightline = {
 if !has('gui_running')
   set t_Co=256
 endif
-let g:rspec_command = 'call Send_to_Tmux("spring rspec {spec}\n")'
-
-" vim-rspec mappings
-map <Leader>s :call RunCurrentSpecFile()<CR>
-map <Leader>c :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
 
 " Highlight search
 :set incsearch
@@ -157,8 +152,7 @@ let g:neomake_python_enabled_makers = ['flake8', 'pep8']
 autocmd! BufWritePost * Neomake
 
 " Ctrl-P
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|tmp\|deploy'
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|vendor)|(\.(swp|ico|git|svn))$'
 
 " Macros
 let @c='"_dwP'
@@ -173,7 +167,13 @@ function! RefreshTags()
 endfunction
 map <F5> :call RefreshTags()<CR>
 
-autocmd Filetype javascript setlocal ts=4 sts=4 sw=4
-
 " React
 let g:jsx_ext_required = 0
+
+" vim-test
+let test#strategy = "vimux"
+map <Leader>s :TestFile<CR>
+map <Leader>c :TestNearest<CR>
+map <Leader>l :TestLast<CR>
+map <Leader>a :TestSuite<CR>
+map <Leader>v :TestVisit<CR>
