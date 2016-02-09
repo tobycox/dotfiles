@@ -10,4 +10,12 @@ alias vim="nvim"
 alias vi="nvim"
 alias be="bundle exec"
 
+# Clean up old branch
+cbranch () {
+  local branch=$(git rev-parse --abbrev-ref HEAD)
+  git checkout master
+  git pull origin master
+  git branch -d $branch
+}
+
 export EDITOR=vim
