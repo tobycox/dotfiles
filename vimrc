@@ -147,9 +147,15 @@ map <C-i> :NERDTreeToggle<CR>
 " Neomake
 let g:neomake_elixielixir_enabled_makers = ['elixir']
 let g:neomake_ruby_enabled_makers = ['mri', 'rubocop']
-let g:neomake_javascript_enabled_makers = ['jshint']
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_jsx_enabled_makers = ['eslint']
 let g:neomake_python_enabled_makers = ['flake8', 'pep8']
 autocmd! BufWritePost * Neomake
+
+" load local eslint in the project root
+" modified from https://github.com/mtscout6/syntastic-local-eslint.vim
+let s:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
+let g:neomake_javascript_eslint_exe = substitute(s:eslint_path, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
 
 " Ctrl-P
 let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|vendor)|(\.(swp|ico|git|svn))$'
