@@ -25,7 +25,6 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'mxw/vim-jsx'
-Plugin 'wookiehangover/jshint.vim'
 Plugin 'janko-m/vim-test'
 Plugin 'benmills/vimux'
 Bundle 'camelcasemotion'
@@ -145,7 +144,7 @@ let g:NERDSpaceDelims=1
 map <C-i> :NERDTreeToggle<CR>
 
 " Neomake
-let g:neomake_elixielixir_enabled_makers = ['elixir']
+let g:neomake_elixir_enabled_makers = ['elixir']
 let g:neomake_ruby_enabled_makers = ['mri', 'rubocop']
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_jsx_enabled_makers = ['eslint']
