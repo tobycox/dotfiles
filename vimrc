@@ -27,6 +27,7 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'mxw/vim-jsx'
 Plugin 'janko-m/vim-test'
 Plugin 'benmills/vimux'
+Plugin 'matchit.zip'
 Bundle 'camelcasemotion'
 
 call vundle#end()
