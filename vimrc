@@ -182,3 +182,6 @@ map <Leader>c :TestNearest<CR>
 map <Leader>l :TestLast<CR>
 map <Leader>a :TestSuite<CR>
 map <Leader>v :TestVisit<CR>
+
+" Toggle paste
+set pastetoggle=<leader>p
