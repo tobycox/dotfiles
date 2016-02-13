@@ -39,7 +39,6 @@ syntax enable
 set background=dark
 colorscheme solarized
 
-set clipboard+=unnamedplus
 set hidden
 filetype plugin indent on
 set expandtab
