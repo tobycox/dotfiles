@@ -103,6 +103,8 @@ nmap <leader>gc :Gcommit<cr>
 nmap <leader>ga :Gwrite<cr>
 nmap <leader>gl :Glog<cr>
 nmap <leader>gd :Gdiff<cr>
+nmap <leader>gh :Gbrowse<cr>
+nmap <leader>gb :Gblame<cr>
 
 " Markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
@@ -185,3 +187,6 @@ map <Leader>v :TestVisit<CR>
 
 " Toggle paste
 set pastetoggle=<leader>p
+
+" Vertical diff
+set diffopt+=vertical
