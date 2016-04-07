@@ -9,6 +9,7 @@ chruby ruby-2.2.3
 alias vim="nvim"
 alias vi="nvim"
 alias be="bundle exec"
+alias react-native="$NVM_BIN/react-native"
 
 # Clean up old branch
 cbranch () {
