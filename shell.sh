@@ -14,12 +14,14 @@ alias react-native="$NVM_BIN/react-native"
 # Clean up old branch
 cbranch () {
   local branch=$(git rev-parse --abbrev-ref HEAD)
-  git add .
-  git stash
-  git checkout master
-  git pull origin master
-  git branch -d $branch
-  git stash pop
+  git diff-index --quiet HEAD . >/dev/null 2>&1; ec=$?
+  if test "$ec" = 0; then
+    git checkout master
+    git pull origin master
+    git branch -d $branch
+  else 
+    echo "ERROR: Stash your changes first"
+  fi
 }
 
 export EDITOR=vim
