@@ -29,6 +29,7 @@ Plugin 'janko-m/vim-test'
 Plugin 'benmills/vimux'
 Plugin 'matchit.zip'
 Bundle 'camelcasemotion'
+Plugin 'tpope/vim-abolish'
 
 call vundle#end()
 
@@ -187,6 +188,9 @@ map <Leader>v :TestVisit<CR>
 
 " Toggle paste
 set pastetoggle=<leader>p
+
+" Use system clipboard
+set clipboard=unnamed
 
 " Vertical diff
 set diffopt+=vertical
