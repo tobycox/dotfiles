@@ -162,7 +162,6 @@ let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|vendor)|(\.(swp|ico
 
 " Macros
 let @c='"_dwP'
-let @d='oimport code; code.interact(local=locals())'
 
 " ctags
 :set tags=~/.myctags
