@@ -65,8 +65,6 @@ set splitright
 set number
 nnoremap <C-S> <C-W><C-S>
 nnoremap <C-Q> <C-W><C-Q>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
 set laststatus=2
 let g:lightline = {
       \ 'colorscheme': 'wombat',
