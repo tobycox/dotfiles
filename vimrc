@@ -15,7 +15,6 @@ Plugin 'vim-scripts/mru.vim'
 Plugin 'ervandew/supertab'
 Plugin 'itchyny/lightline.vim'
 Plugin 'jeffkreeftmeijer/vim-numbertoggle'
-Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'benekastah/neomake'
 Plugin 'tpope/vim-fugitive'
 Plugin 'rking/ag.vim'
@@ -30,11 +29,13 @@ Plugin 'benmills/vimux'
 Plugin 'matchit.zip'
 Bundle 'camelcasemotion'
 Plugin 'tpope/vim-abolish'
+Plugin 'troydm/zoomwintab.vim'
+Plugin 'kassio/neoterm'
 
 call vundle#end()
 
 " Colour theme (default neovim, inherit iTerm2 scheme)
-set encoding=utf-8
+" set encoding=utf-8
 set t_Co=256
 syntax enable
 set background=dark
@@ -48,8 +49,9 @@ set shiftwidth=2
 set autoindent
 filetype plugin on
 let mapleader = ","
-map <leader>t :CtrlP<CR>
-map <leader>r :MRU<CR>
+nmap <Space> ,
+map <leader>p :CtrlP<CR>
+map <leader>r :CtrlPMRUFiles<CR>
 map <leader>f :Ag 
 nmap <silent> <leader>d <Plug>DashSearch
 nmap <silent> <leader><leader> <C-^>
@@ -63,7 +65,7 @@ autocmd GUIEnter * set visualbell t_vb=
 set splitbelow
 set splitright
 set number
-nnoremap <C-S> <C-W><C-S>
+nnoremap <C-S> :w<CR>
 nnoremap <C-Q> <C-W><C-Q>
 set laststatus=2
 let g:lightline = {
@@ -85,15 +87,14 @@ endif
 :set hlsearch
 :nmap \q :nohlsearch<CR>
 
-" Highlight trailing whitespace
-autocmd InsertEnter * syn clear EOLWS | syn match EOLWS excludenl /\s\+\%#\@!$/
-autocmd InsertLeave * syn clear EOLWS | syn match EOLWS excludenl /\s\+$/
-highlight EOLWS ctermbg=red guibg=red
+" Also highlight all tabs and trailing whitespace characters.
+highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
+match ExtraWhitespace /\s\+$\|\t/
 
 " Highlighting
 au BufRead,BufNewFile Gruntfile setfiletype javascript
-augroup filetypedetect 
-  au BufNewFile,BufRead *.pig set filetype=pig syntax=pig 
+augroup filetypedetect
+  au BufNewFile,BufRead *.pig set filetype=pig syntax=pig
 augroup END
 
 " Fugitive
@@ -108,35 +109,38 @@ nmap <leader>gb :Gblame<cr>
 " Markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
-if exists('$TMUX')
-  function! TmuxOrSplitSwitch(wincmd, tmuxdir)
-    let previous_winnr = winnr()
-    silent! execute "wincmd " . a:wincmd
-    if previous_winnr == winnr()
-      call system("tmux select-pane -" . a:tmuxdir)
-      redraw!
-    endif
-  endfunction
+" Window navigation in terminal mode
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
+tnoremap <C-w>s <C-\><C-n><C-w>s
+tnoremap <C-w>v <C-\><C-n><C-w>v
 
-  let previous_title = substitute(system("tmux display-message -p '#{pane_title}'"), '\n', '', '')
-  let &t_ti = "\<Esc>]2;vim\<Esc>\\" . &t_ti
-  let &t_te = "\<Esc>]2;". previous_title . "\<Esc>\\" . &t_te
+" Window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
-  nnoremap <silent> <C-h> :call TmuxOrSplitSwitch('h', 'L')<cr>
-  nnoremap <silent> <C-j> :call TmuxOrSplitSwitch('j', 'D')<cr>
-  nnoremap <silent> <C-k> :call TmuxOrSplitSwitch('k', 'U')<cr>
-  nnoremap <silent> <C-l> :call TmuxOrSplitSwitch('l', 'R')<cr>
-else
-  map <C-h> <C-w>h
-  map <C-j> <C-w>j
-  map <C-k> <C-w>k
-  map <C-l> <C-w>l
-endif
+" Convert window to terminal
+nnoremap <C-w>t :terminal<CR>
+
+" Create a bottom window with a terminal
+map <Leader>t :T clear<CR>
+
+
+" Zoom the current window
+nnoremap <silent> <C-w>w :ZoomWinTabToggle<CR>
+tnoremap <silent> <C-w>w <C-\><C-n>:ZoomWinTabToggle<CR>
 
 " Tab Navigation
-nnoremap tn :tabnext<CR>
-nnoremap tp :tabprev<CR>
-nnoremap tc :tabnew<CR>
+tnoremap <C-w>n <C-\><C-n>:tabnext<CR>
+tnoremap <C-w>p <C-\><C-n>:tabprev<CR>
+tnoremap <C-w>c <C-\><C-n>:tabnew<CR>
+nnoremap <C-w>n :tabnext<CR>
+nnoremap <C-w>p :tabprev<CR>
+nnoremap <C-w>c :tabnew<CR>
 
 " Nerdcomment
 let g:NERDSpaceDelims=1
@@ -176,18 +180,36 @@ map <F5> :call RefreshTags()<CR>
 let g:jsx_ext_required = 0
 
 " vim-test
-let test#strategy = "vimux"
+let test#strategy = "neoterm"
 map <Leader>s :TestFile<CR>
 map <Leader>c :TestNearest<CR>
 map <Leader>l :TestLast<CR>
 map <Leader>a :TestSuite<CR>
 map <Leader>v :TestVisit<CR>
 
-" Toggle paste
-set pastetoggle=<leader>p
-
 " Use system clipboard
 set clipboard=unnamed
 
 " Vertical diff
 set diffopt+=vertical
+
+" Alt-keys in :terminal https://github.com/neovim/neovim/issues/2440
+tnoremap <A-b> <Esc>b
+tnoremap <A-f> <Esc>f
+tnoremap <A-.> <Esc>.
+
+" Auto insert when switching to terminal tab
+autocmd WinEnter term://* startinsert
+
+" Window resizing
+noremap <silent> <S-Left> <C-W><<C-W><
+noremap <silent> <S-Right> <C-W>><C-W>>
+noremap <silent> <S-Up> <C-W>+
+noremap <silent> <S-Down> <C-W>-
+tnoremap <silent> <S-Left> <C-\><C-n><C-W><<C-W><
+tnoremap <silent> <S-Right> <C-\><C-n><C-W>><C-W>>
+tnoremap <silent> <S-Up> <C-\><C-n><C-W>+
+tnoremap <silent> <S-Down> <C-\><C-n><C-W>-
+
+" Neoterm
+let g:neoterm_size = "20"
