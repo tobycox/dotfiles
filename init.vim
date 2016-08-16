@@ -234,9 +234,6 @@ set showtabline=1
 map <Leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 
 " Remap word navigation to CamelCaseMotion equivalents
-map <silent> w <Plug>CamelCaseMotion_w
-map <silent> b <Plug>CamelCaseMotion_b
-map <silent> e <Plug>CamelCaseMotion_e
-sunmap w
-sunmap b
-sunmap e
+map <Leader>w <Plug>CamelCaseMotion_w
+map <Leader>b <Plug>CamelCaseMotion_b
+map <Leader>e <Plug>CamelCaseMotion_e
