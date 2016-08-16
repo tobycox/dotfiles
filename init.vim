@@ -1,38 +1,39 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible              " be iMproved, required filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+let g:python3_host_prog = '/usr/local/bin/python3'
+
+" Vim plug
+call plug#begin()
 
 " Packages
-Plugin 'kien/ctrlp.vim'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'tpope/vim-rails'
-Plugin 'pangloss/vim-javascript'
-Plugin 'tpope/vim-surround'
-Plugin 'vim-scripts/mru.vim'
-Plugin 'ervandew/supertab'
-Plugin 'itchyny/lightline.vim'
-Plugin 'jeffkreeftmeijer/vim-numbertoggle'
-Plugin 'benekastah/neomake'
-Plugin 'tpope/vim-fugitive'
-Plugin 'rking/ag.vim'
-Plugin 'jgdavey/tslime.vim'
-Plugin 'elixir-lang/vim-elixir'
-Plugin 'scrooloose/nerdtree'
-Plugin 'mustache/vim-mustache-handlebars'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'mxw/vim-jsx'
-Plugin 'janko-m/vim-test'
-Plugin 'benmills/vimux'
-Plugin 'matchit.zip'
-Bundle 'camelcasemotion'
-Plugin 'tpope/vim-abolish'
-Plugin 'troydm/zoomwintab.vim'
-Plugin 'kassio/neoterm'
+Plug 'kien/ctrlp.vim'
+Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-rails'
+Plug 'pangloss/vim-javascript'
+Plug 'tpope/vim-surround'
+Plug 'vim-scripts/mru.vim'
+Plug 'itchyny/lightline.vim'
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
+Plug 'benekastah/neomake'
+Plug 'tpope/vim-fugitive'
+Plug 'rking/ag.vim'
+Plug 'jgdavey/tslime.vim'
+Plug 'elixir-lang/vim-elixir'
+Plug 'scrooloose/nerdtree'
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'altercation/vim-colors-solarized'
+Plug 'mxw/vim-jsx'
+Plug 'janko-m/vim-test'
+Plug 'benmills/vimux'
+Plug 'matchit.zip'
+Plug 'bkad/CamelCaseMotion'
+Plug 'tpope/vim-abolish'
+Plug 'troydm/zoomwintab.vim'
+Plug 'kassio/neoterm'
+Plug 'ervandew/supertab'
+Plug 'Shougo/deoplete.nvim'
 
-call vundle#end()
+call plug#end()
 
 " Colour theme (default neovim, inherit iTerm2 scheme)
 " set encoding=utf-8
@@ -48,8 +49,7 @@ set tabstop=2
 set shiftwidth=2
 set autoindent
 filetype plugin on
-let mapleader = ","
-nmap <Space> ,
+let mapleader = "\<Space>"
 map <leader>p :CtrlP<CR>
 map <leader>r :CtrlPMRUFiles<CR>
 map <leader>f :Ag 
@@ -213,3 +213,30 @@ tnoremap <silent> <S-Down> <C-\><C-n><C-W>-
 
 " Neoterm
 let g:neoterm_size = "20"
+
+" Exit insert mode in terminal
+tnoremap <C-[> <C-\><C-n>
+
+" Deoplete
+set runtimepath+=~/.vim/plugged/deoplete.nvim/
+let g:deoplete#enable_at_startup = 1
+
+" No visual mode
+nnoremap Q <NOP>
+
+" True color
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+" Show tabline
+set showtabline=1
+
+" Toggle background
+map <Leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR>
+
+" Remap word navigation to CamelCaseMotion equivalents
+map <silent> w <Plug>CamelCaseMotion_w
+map <silent> b <Plug>CamelCaseMotion_b
+map <silent> e <Plug>CamelCaseMotion_e
+sunmap w
+sunmap b
+sunmap e
