@@ -19,7 +19,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'rking/ag.vim'
 Plug 'jgdavey/tslime.vim'
 Plug 'elixir-lang/vim-elixir'
-Plug 'scrooloose/nerdtree'
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'altercation/vim-colors-solarized'
 Plug 'mxw/vim-jsx'
@@ -32,6 +31,7 @@ Plug 'troydm/zoomwintab.vim'
 Plug 'kassio/neoterm'
 Plug 'ervandew/supertab'
 Plug 'Shougo/deoplete.nvim'
+Plug 'roman/golden-ratio'
 
 call plug#end()
 
@@ -144,9 +144,6 @@ nnoremap <C-w>c :tabnew<CR>
 
 " Nerdcomment
 let g:NERDSpaceDelims=1
-
-" NERDTree
-map <C-i> :NERDTreeToggle<CR>
 
 " Neomake
 let g:neomake_elixir_enabled_makers = ['elixir']

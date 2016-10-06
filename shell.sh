@@ -1,5 +1,5 @@
 source /usr/local/opt/chruby/share/chruby/chruby.sh
-chruby ruby-2.2.3
+chruby 2.3.1
 
 alias vim="nvim"
 alias vi="nvim"
