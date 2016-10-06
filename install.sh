@@ -44,3 +44,6 @@ ruby-build 2.3.1 ~/.rubies/2.3.1
 
 gem install bundler
 gem install rubocop
+
+# Postgres
+brew install postgresql
