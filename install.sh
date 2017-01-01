@@ -47,3 +47,6 @@ gem install rubocop
 
 # Postgres
 brew install postgresql
+
+# Node
+brew install node

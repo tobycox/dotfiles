@@ -18,4 +18,5 @@ cbranch () {
   fi
 }
 
-export EDITOR=vim
+export EDITOR=~/dev/dotfiles/nvim-wrapper
+export PATH=$PATH:./node_modules/.bin:$HOME/.npm-packages/bin

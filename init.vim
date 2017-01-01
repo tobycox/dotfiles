@@ -125,6 +125,7 @@ nnoremap <C-l> <C-w>l
 
 " Convert window to terminal
 nnoremap <C-w>t :terminal<CR>
+nnoremap <A-t> :terminal<CR>
 
 " Create a bottom window with a terminal
 map <Leader>t :T clear<CR>
@@ -151,15 +152,12 @@ let g:neomake_ruby_enabled_makers = ['mri', 'rubocop']
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_jsx_enabled_makers = ['eslint']
 let g:neomake_python_enabled_makers = ['flake8', 'pep8']
+let g:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
+
 autocmd! BufWritePost * Neomake
 
-" load local eslint in the project root
-" modified from https://github.com/mtscout6/syntastic-local-eslint.vim
-let s:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
-let g:neomake_javascript_eslint_exe = substitute(s:eslint_path, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
-
 " Ctrl-P
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|vendor)|(\.(swp|ico|git|svn))$'
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|tmp|cache)|(\.(swp|ico|git|svn))$'
 
 " Macros
 let @c='"_dwP'
