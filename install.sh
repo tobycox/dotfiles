@@ -50,3 +50,6 @@ brew install postgresql
 
 # Node
 brew install node
+
+# Yarn
+brew install yarn
