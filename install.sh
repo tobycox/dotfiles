@@ -45,11 +45,12 @@ ruby-build 2.3.1 ~/.rubies/2.3.1
 gem install bundler
 gem install rubocop
 
-# Postgres
+# Brewing up some other brewskis
 brew install postgresql
-
-# Node
 brew install node
-
-# Yarn
 brew install yarn
+brew install the_silver_searcher
+
+# Screenshots directory
+mkdir ~/Screenshots
+defaults write com.apple.screencapture location ~/Screenshots
