@@ -16,7 +16,6 @@ Plug 'itchyny/lightline.vim'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'benekastah/neomake'
 Plug 'tpope/vim-fugitive'
-Plug 'rking/ag.vim'
 Plug 'jgdavey/tslime.vim'
 Plug 'elixir-lang/vim-elixir'
 Plug 'mustache/vim-mustache-handlebars'
@@ -29,9 +28,13 @@ Plug 'bkad/CamelCaseMotion'
 Plug 'tpope/vim-abolish'
 Plug 'troydm/zoomwintab.vim'
 Plug 'kassio/neoterm'
-Plug 'ervandew/supertab'
 Plug 'Shougo/deoplete.nvim'
+Plug 'wokalski/autocomplete-flow'
 Plug 'roman/golden-ratio'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'tpope/vim-unimpaired'
+Plug 'sbdchd/neoformat'
+Plug 'mhinz/vim-grepper'
 
 call plug#end()
 
@@ -52,7 +55,10 @@ filetype plugin on
 let mapleader = "\<Space>"
 map <leader>p :CtrlP<CR>
 map <leader>r :CtrlPMRUFiles<CR>
-map <leader>f :Ag 
+
+nnoremap <leader>f :Grepper<cr>
+let g:grepper = { 'next_tool': '<leader>g' }
+
 nmap <silent> <leader>d <Plug>DashSearch
 nmap <silent> <leader><leader> <C-^>
 runtime macros/matchit.vim
@@ -86,10 +92,6 @@ endif
 :set smartcase
 :set hlsearch
 :nmap \q :nohlsearch<CR>
-
-" Also highlight all tabs and trailing whitespace characters.
-highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
-match ExtraWhitespace /\s\+$\|\t/
 
 " Highlighting
 au BufRead,BufNewFile Gruntfile setfiletype javascript
@@ -147,17 +149,34 @@ nnoremap <C-w>c :tabnew<CR>
 let g:NERDSpaceDelims=1
 
 " Neomake
+let g:neomake_scss_csslint_maker = {
+  \ 'args': ['--format=compact'],
+  \ 'errorformat':
+      \ '%-G,' .
+      \ '%-G%f: lint free!,' .
+      \ '%f: line %l\, col %c\, %trror - %m,' .
+      \ '%f: line %l\, col %c\, %tarning - %m,'.
+      \ '%f: line %l\, col %c\, %m,'
+\ }
 let g:neomake_elixir_enabled_makers = ['elixir']
 let g:neomake_ruby_enabled_makers = ['mri', 'rubocop']
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_jsx_enabled_makers = ['eslint']
+let g:neomake_javascript_enabled_makers = ['eslint', 'flow']
+let g:neomake_jsx_enabled_makers = ['eslint', 'flow']
+let g:neomake_css_enabled_makers = ['csslint']
+let g:neomake_scss_enabled_makers = ['csslint']
 let g:neomake_python_enabled_makers = ['flake8', 'pep8']
 let g:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
 
 autocmd! BufWritePost * Neomake
 
+" Neoformat
+autocmd! BufWritePre *.js Neoformat prettier
+autocmd! BufWritePre *.jsx Neoformat prettier
+
 " Ctrl-P
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|tmp|cache)|(\.(swp|ico|git|svn))$'
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|tmp|cache)|(\.(swp|ico|git|svn|png|jpg))$'
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+
 
 " Macros
 let @c='"_dwP'
