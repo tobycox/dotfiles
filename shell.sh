@@ -1,9 +1,11 @@
 source /usr/local/opt/chruby/share/chruby/chruby.sh
-chruby 2.3.1
+source /usr/local/share/chruby/auto.sh
 
 alias vim="nvim"
 alias vi="nvim"
 alias be="bundle exec"
+alias gpush="git push origin "
+alias gpull="git pull origin "
 
 # Clean up old branch
 cbranch () {
@@ -13,10 +15,11 @@ cbranch () {
     git checkout master
     git pull origin master
     git branch -d $branch
-  else 
+  else
     echo "ERROR: Stash your changes first"
   fi
 }
 
 export EDITOR=~/dev/dotfiles/nvim-wrapper
+export REACT_EDITOR=$EDITOR
 export PATH=$PATH:./node_modules/.bin:$HOME/.npm-packages/bin:`yarn global bin`

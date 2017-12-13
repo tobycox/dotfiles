@@ -16,6 +16,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'benekastah/neomake'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'jgdavey/tslime.vim'
 Plug 'elixir-lang/vim-elixir'
 Plug 'mustache/vim-mustache-handlebars'
@@ -35,6 +36,8 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'tpope/vim-unimpaired'
 Plug 'sbdchd/neoformat'
 Plug 'mhinz/vim-grepper'
+Plug 'Shougo/neosnippet'
+Plug 'Shougo/neosnippet-snippets'
 
 call plug#end()
 
@@ -132,6 +135,8 @@ nnoremap <A-t> :terminal<CR>
 " Create a bottom window with a terminal
 map <Leader>t :T clear<CR>
 
+" Create new tab with four vertical splits
+map <A-2> :tabnew<CR>:term<CR><esc>:vsplit term://zsh<CR><esc>
 
 " Zoom the current window
 nnoremap <silent> <C-w>w :ZoomWinTabToggle<CR>
@@ -235,6 +240,9 @@ tnoremap <C-[> <C-\><C-n>
 set runtimepath+=~/.vim/plugged/deoplete.nvim/
 let g:deoplete#enable_at_startup = 1
 
+" Neosnippet
+let g:neosnippet#enable_completed_snippet = 1
+
 " No visual mode
 nnoremap Q <NOP>
 
@@ -251,3 +259,26 @@ map <Leader>bg :let &background = ( &background == "dark"? "light" : "dark" )<CR
 map <Leader>w <Plug>CamelCaseMotion_w
 map <Leader>b <Plug>CamelCaseMotion_b
 map <Leader>e <Plug>CamelCaseMotion_e
+
+
+" https://github.com/tpope/vim-rails/issues/368
+let g:rails_projections = {
+      \  "app/controllers/*_controller.rb": {
+      \      "test": [
+      \        "spec/requests/{}_spec.rb",
+      \        "spec/controllers/{}_controller_spec.rb",
+      \        "test/controllers/{}_controller_test.rb"
+      \      ],
+      \      "alternate": [
+      \        "spec/requests/{}_spec.rb",
+      \        "spec/controllers/{}_controller_spec.rb",
+      \        "test/controllers/{}_controller_test.rb"
+      \      ],
+      \   },
+      \   "spec/requests/*_spec.rb": {
+      \      "command": "request",
+      \      "alternate": "app/controllers/{}_controller.rb",
+      \      "template": "require 'rails_helper'\n\n" .
+      \        "RSpec.describe '{}' do\nend",
+      \   },
+      \ }
