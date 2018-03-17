@@ -62,6 +62,7 @@ filetype plugin on
 let mapleader = "\<Space>"
 map <leader>p :CtrlP<CR>
 map <leader>r :CtrlPMRUFiles<CR>
+map <leader>o :TagbarToggle<CR>
 
 nnoremap <leader>f :Grepper<cr>
 let g:grepper = { 'next_tool': '<leader>g' }
