@@ -24,7 +24,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'mxw/vim-jsx'
 Plug 'janko-m/vim-test'
 Plug 'benmills/vimux'
-Plug 'matchit.zip'
+Plug 'https://github.com/adelarsq/vim-matchit'
 Plug 'bkad/CamelCaseMotion'
 Plug 'tpope/vim-abolish'
 Plug 'troydm/zoomwintab.vim'
@@ -38,6 +38,8 @@ Plug 'sbdchd/neoformat'
 Plug 'mhinz/vim-grepper'
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
+Plug 'tomlion/vim-solidity'
+Plug 'cakebaker/scss-syntax.vim'
 
 call plug#end()
 
@@ -133,7 +135,7 @@ nnoremap <C-w>t :terminal<CR>
 nnoremap <A-t> :terminal<CR>
 
 " Create a bottom window with a terminal
-map <Leader>t :T clear<CR>
+map <Leader>t :Ttoggle<CR>
 
 " Create new tab with four vertical splits
 map <A-2> :tabnew<CR>:term<CR><esc>:vsplit term://zsh<CR><esc>

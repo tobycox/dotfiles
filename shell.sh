@@ -19,7 +19,3 @@ cbranch () {
     echo "ERROR: Stash your changes first"
   fi
 }
-
-export EDITOR=~/dev/dotfiles/nvim-wrapper
-export REACT_EDITOR=$EDITOR
-export PATH=$PATH:./node_modules/.bin:$HOME/.npm-packages/bin:`yarn global bin`
