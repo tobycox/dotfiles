@@ -23,6 +23,7 @@ ln -s $PWD/init.vim ~/.config/nvim/init.vim
 # Other config files
 ln -s $PWD/tmux.conf ~/.tmux.conf
 ln -s $PWD/git_template ~/.git_template
+ln -s $PWD/gitconfig ~/.gitconfig
 ln -s $PWD/ctags ~/.ctags
 ln -s $PWD/npmrc ~/.npmrc
 ln -s $PWD/zshenv ~/.zshenv

@@ -1,0 +1,10 @@
+[init]
+	templatedir = ~/.git_template
+[alias]
+	l = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+[user]
+	email = toby@dovetailstudios.com
+	name = Toby Cox
+[core]
+	excludesfile = ~/dev/dotfiles/gitignore_global
