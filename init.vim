@@ -83,10 +83,13 @@ nnoremap <C-S> :w<CR>
 nnoremap <C-Q> <C-W><C-Q>
 set laststatus=2
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'solarized',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified', 'tagbar' ] ],
+      \             [ 'readonly', 'gitbranch', 'filename', 'modified', 'tagbar' ] ],
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'fugitive#head'
       \ },
       \ 'component': {
       \   'readonly': '%{&readonly?"":""}',
