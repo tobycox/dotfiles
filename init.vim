@@ -40,6 +40,8 @@ Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'tomlion/vim-solidity'
 Plug 'cakebaker/scss-syntax.vim'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'majutsushi/tagbar'
 
 call plug#end()
 
@@ -81,12 +83,20 @@ nnoremap <C-Q> <C-W><C-Q>
 set laststatus=2
 let g:lightline = {
       \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified', 'tagbar' ] ],
+      \ },
       \ 'component': {
       \   'readonly': '%{&readonly?"":""}',
+      \   'tagbar': '%{gutentags#statusline("[Generating\ tags...]")}'
       \ },
       \ 'separator': { 'left': '', 'right': '' },
       \ 'subseparator': { 'left': '', 'right': '' }
       \ }
+set statusline+=%{gutentags#statusline()}
+
+
 if !has('gui_running')
   set t_Co=256
 endif
@@ -187,15 +197,6 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-stand
 
 " Macros
 let @c='"_dwP'
-
-" ctags
-:set tags=~/.myctags
-function! RefreshTags()
-  let cwd = getcwd()
-  let cmd ='ctags -R -o ~/.myctags ' . cwd
-  let response = system(cmd)
-endfunction
-map <F5> :call RefreshTags()<CR>
 
 " React
 let g:jsx_ext_required = 0
