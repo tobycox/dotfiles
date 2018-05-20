@@ -316,4 +316,4 @@ let g:rails_projections = {
 command! StripTrailingWhitespace :%s/\s\+$//e
 
 "  Highlight terminal cursor
-highlight! TermCursorNC guibg=red guifg=white ctermbg=1 ctermfg=15
+highlight! TermCursorNC guibg=green guifg=white ctermbg=28 ctermfg=15
