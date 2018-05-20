@@ -4,6 +4,8 @@ TAGS
 !TAGS/
 tags
 .tags
+tags.lock
+tags.temp
 !tags/
 gtags.files
 GTAGS

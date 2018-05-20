@@ -31,6 +31,7 @@ Plug 'troydm/zoomwintab.vim'
 Plug 'kassio/neoterm'
 Plug 'Shougo/deoplete.nvim'
 Plug 'wokalski/autocomplete-flow'
+" Plug 'zhaocai/GoldenView.Vim'
 Plug 'roman/golden-ratio'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'tpope/vim-unimpaired'
@@ -42,6 +43,7 @@ Plug 'tomlion/vim-solidity'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'majutsushi/tagbar'
+Plug 'AndrewRadev/ginitpull.vim'
 
 call plug#end()
 
@@ -63,6 +65,7 @@ let mapleader = "\<Space>"
 map <leader>p :CtrlP<CR>
 map <leader>r :CtrlPMRUFiles<CR>
 map <leader>o :TagbarToggle<CR>
+map <leader>gp :Ginitpull<CR>
 
 nnoremap <leader>f :Grepper<cr>
 let g:grepper = { 'next_tool': '<leader>g' }
@@ -71,6 +74,7 @@ nmap <silent> <leader>d <Plug>DashSearch
 nmap <silent> <leader><leader> <C-^>
 runtime macros/matchit.vim
 set complete=.,w,b,u,t
+set completeopt-=preview
 set nobackup
 set nowritebackup
 set noswapfile
@@ -188,6 +192,8 @@ let g:neomake_scss_enabled_makers = ['csslint']
 let g:neomake_python_enabled_makers = ['flake8', 'pep8']
 let g:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
 
+" let g:neomake_open_list = 2
+
 autocmd! BufWritePost * Neomake
 
 " Neoformat
@@ -195,8 +201,17 @@ autocmd! BufWritePre *.js Neoformat prettier
 autocmd! BufWritePre *.jsx Neoformat prettier
 
 " Ctrl-P
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist|tmp|cache)|(\.(swp|ico|git|svn|png|jpg))$'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+if executable('ag')
+  " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+  set grepprg=ag\ --nogroup\ --nocolor
+  " Use ag in CtrlP for listing files. Lightning fast, respects .gitignore
+  " and .agignore. Ignores hidden files by default.
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -f -g ""'
+else
+  "ctrl+p ignore files in .gitignore
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+endif
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|bower_components|target|dist|tmp|cache)|(\.(swp|ico|git|svn|png|jpg))|(bower_components)$'
 
 
 " Macros
@@ -289,3 +304,16 @@ let g:rails_projections = {
       \        "RSpec.describe '{}' do\nend",
       \   },
       \ }
+
+" GoldenView
+" let g:goldenview__enable_default_mapping = 0
+" unmap <Leader>v
+" nmap <silent> <Leader>vs  <Plug>GoldenViewSplit
+" nmap <silent> <Leader>vt  <Plug>GoldenViewSplit
+" nmap <silent> <Leader>vr <Plug>GoldenViewResize
+
+" Strip trailing whitespace
+command! StripTrailingWhitespace :%s/\s\+$//e
+
+"  Highlight terminal cursor
+highlight! TermCursorNC guibg=red guifg=white ctermbg=1 ctermfg=15
