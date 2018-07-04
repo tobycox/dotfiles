@@ -19,3 +19,5 @@ cbranch () {
     echo "ERROR: Stash your changes first"
   fi
 }
+
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude bower_components'

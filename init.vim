@@ -6,9 +6,11 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 call plug#begin()
 
 " Packages
-Plug 'kien/ctrlp.vim'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-rails'
+Plug 'tpope/vim-projectionist'
 Plug 'pangloss/vim-javascript'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/mru.vim'
@@ -62,8 +64,10 @@ set shiftwidth=2
 set autoindent
 filetype plugin on
 let mapleader = "\<Space>"
-map <leader>p :CtrlP<CR>
-map <leader>r :CtrlPMRUFiles<CR>
+nnoremap <leader>p :Files<CR>
+nnoremap <leader>r :History<CR>
+nnoremap <leader>c :History:<CR>
+
 map <leader>o :TagbarToggle<CR>
 map <leader>gp :Ginitpull<CR>
 
@@ -223,7 +227,7 @@ let g:jsx_ext_required = 0
 " vim-test
 let test#strategy = "neoterm"
 map <Leader>s :TestFile<CR>
-map <Leader>c :TestNearest<CR>
+map <Leader>n :TestNearest<CR>
 map <Leader>l :TestLast<CR>
 map <Leader>a :TestSuite<CR>
 map <Leader>v :TestVisit<CR>

@@ -52,6 +52,7 @@ brew install postgresql
 brew install node
 brew install yarn
 brew install the_silver_searcher
+brew install fzf
 
 # Screenshots directory
 mkdir ~/Screenshots
