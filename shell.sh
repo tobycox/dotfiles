@@ -21,3 +21,6 @@ cbranch () {
 }
 
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude bower_components'
+
+export NVM_DIR="$HOME/.nvm"
+alias loadnvm='[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'
