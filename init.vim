@@ -1,5 +1,7 @@
 set nocompatible              " be iMproved, required filetype off                  " required
 
+set shell=/bin/bash
+
 let g:python3_host_prog = '/usr/local/bin/python3'
 
 " Vim plug
@@ -153,11 +155,11 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 " Convert window to terminal
-nnoremap <C-w>t :terminal<CR>
-nnoremap <A-t> :terminal<CR>
+nnoremap <C-w>t :terminal zsh<CR>
+nnoremap <A-t> :terminal zsh<CR>
 
 " Create a bottom window with a terminal
-map <Leader>t :Ttoggle<CR>
+map <Leader>t :rightbelow Ttoggle<CR>
 
 " Create new tab with four vertical splits
 map <A-2> :tabnew<CR>:term<CR><esc>:vsplit term://zsh<CR><esc>
@@ -319,5 +321,9 @@ let g:rails_projections = {
 " Strip trailing whitespace
 command! StripTrailingWhitespace :%s/\s\+$//e
 
-"  Highlight terminal cursor
+" Highlight terminal cursor
 highlight! TermCursorNC guibg=green guifg=white ctermbg=28 ctermfg=15
+
+" Use zsh for neoterm, but bash as the main shell
+let g:neoterm_shell = "zsh"
+

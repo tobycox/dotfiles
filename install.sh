@@ -10,6 +10,7 @@ echo "source ~/dev/dotfiles/shell.sh" >> ~/.zshrc
 # Python for neovim
 brew install python3
 pip3 install --upgrade neovim
+pip3 install pynvim
 
 # Neovim
 brew install neovim/neovim/neovim
