@@ -48,6 +48,7 @@ Plug 'cakebaker/scss-syntax.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'majutsushi/tagbar'
 Plug 'AndrewRadev/ginitpull.vim'
+Plug 'itchyny/calendar.vim'
 
 call plug#end()
 
@@ -196,7 +197,6 @@ let g:neomake_jsx_enabled_makers = ['eslint', 'flow']
 let g:neomake_css_enabled_makers = ['csslint']
 let g:neomake_scss_enabled_makers = ['csslint']
 let g:neomake_python_enabled_makers = ['flake8', 'pep8']
-let g:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
 
 " let g:neomake_open_list = 2
 
@@ -327,3 +327,4 @@ highlight! TermCursorNC guibg=green guifg=white ctermbg=28 ctermfg=15
 " Use zsh for neoterm, but bash as the main shell
 let g:neoterm_shell = "zsh"
 
+let g:calendar_google_calendar = 1

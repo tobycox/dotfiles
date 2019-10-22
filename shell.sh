@@ -22,6 +22,8 @@ cbranch () {
 
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude bower_components'
 
+export ANDROID_HOME="~/Library/Android/sdk"
+
 export NVM_DIR="$HOME/.nvm"
 alias loadnvm='[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'
 alias imdone="osascript -e 'display notification with title \"Done\"'"

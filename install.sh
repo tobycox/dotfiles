@@ -28,6 +28,7 @@ ln -s $PWD/gitconfig ~/.gitconfig
 ln -s $PWD/ctags ~/.ctags
 ln -s $PWD/npmrc ~/.npmrc
 ln -s $PWD/zshenv ~/.zshenv
+ln -s $PWD/bash_profile ~/.bash_profile
 
 ln -s $PWD/muxit /usr/local/bin
 
