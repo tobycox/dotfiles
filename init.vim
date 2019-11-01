@@ -198,6 +198,8 @@ let g:neomake_css_enabled_makers = ['csslint']
 let g:neomake_scss_enabled_makers = ['csslint']
 let g:neomake_python_enabled_makers = ['flake8', 'pep8']
 
+let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
+
 " let g:neomake_open_list = 2
 
 autocmd! BufWritePost * Neomake
