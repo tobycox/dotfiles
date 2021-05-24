@@ -2,14 +2,14 @@ set nocompatible              " be iMproved, required filetype off              
 
 set shell=/bin/bash
 
-let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python3_host_prog = '/opt/homebrew/bin/python3'
 
 " Vim plug
 call plug#begin()
 
 " Packages
-Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf.vim'
+Plug '/opt/homebrew/bin/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-projectionist'
@@ -67,7 +67,7 @@ set shiftwidth=2
 set autoindent
 filetype plugin on
 let mapleader = "\<Space>"
-nnoremap <leader>p :Files<CR>
+nnoremap <leader>p :FZF<CR>
 nnoremap <leader>r :History<CR>
 nnoremap <leader>c :History:<CR>
 
@@ -196,7 +196,7 @@ let g:neomake_javascript_enabled_makers = ['eslint', 'flow']
 let g:neomake_jsx_enabled_makers = ['eslint', 'flow']
 let g:neomake_css_enabled_makers = ['csslint']
 let g:neomake_scss_enabled_makers = ['csslint']
-let g:neomake_python_enabled_makers = ['flake8', 'pep8']
+" let g:neomake_python_enabled_makers = ['flake8', 'pep8']
 
 let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
 
@@ -208,18 +208,7 @@ autocmd! BufWritePost * Neomake
 autocmd! BufWritePre *.js Neoformat prettier
 autocmd! BufWritePre *.jsx Neoformat prettier
 
-" Ctrl-P
-if executable('ag')
-  " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-  set grepprg=ag\ --nogroup\ --nocolor
-  " Use ag in CtrlP for listing files. Lightning fast, respects .gitignore
-  " and .agignore. Ignores hidden files by default.
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -f -g ""'
-else
-  "ctrl+p ignore files in .gitignore
-  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
-endif
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|bower_components|target|dist|tmp|cache)|(\.(swp|ico|git|svn|png|jpg))|(bower_components)$'
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.5, 'highlight': 'Comment' } }
 
 
 " Macros
