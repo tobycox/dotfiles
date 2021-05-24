@@ -22,6 +22,8 @@ curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
 mkdir -p ~/.config/nvim
 ln -s $PWD/init.vim ~/.config/nvim/init.vim
 
+mkdir -p ~/.config/rubocop
+ln -s $PWD/rubocop_config.yml ~/.config/rubocop/config.yml
 
 # Other config files
 ln -s $PWD/tmux.conf ~/.tmux.conf
