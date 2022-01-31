@@ -1,15 +1,14 @@
 set nocompatible              " be iMproved, required filetype off                  " required
 
 set shell=/bin/bash
-
 let g:python3_host_prog = '/opt/homebrew/bin/python3'
 
 " Vim plug
 call plug#begin()
 
 " Packages
-Plug '/opt/homebrew/bin/fzf'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-projectionist'
@@ -18,7 +17,6 @@ Plug 'tpope/vim-surround'
 Plug 'vim-scripts/mru.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
-Plug 'benekastah/neomake'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'jgdavey/tslime.vim'
@@ -35,12 +33,9 @@ Plug 'troydm/zoomwintab.vim'
 Plug 'kassio/neoterm'
 Plug 'Shougo/deoplete.nvim'
 Plug 'wokalski/autocomplete-flow'
-" Plug 'zhaocai/GoldenView.Vim'
-Plug 'roman/golden-ratio'
+" Plug 'roman/golden-ratio'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'tpope/vim-unimpaired'
-Plug 'sbdchd/neoformat'
-Plug 'mhinz/vim-grepper'
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'tomlion/vim-solidity'
@@ -48,7 +43,8 @@ Plug 'cakebaker/scss-syntax.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'majutsushi/tagbar'
 Plug 'AndrewRadev/ginitpull.vim'
-Plug 'itchyny/calendar.vim'
+Plug 'dense-analysis/ale'
+
 
 call plug#end()
 
@@ -67,15 +63,12 @@ set shiftwidth=2
 set autoindent
 filetype plugin on
 let mapleader = "\<Space>"
-nnoremap <leader>p :FZF<CR>
-nnoremap <leader>r :History<CR>
-nnoremap <leader>c :History:<CR>
+nnoremap <leader>p :Telescope find_files<CR>
+nnoremap <leader>r :Telescope oldfiles<CR>
+nnoremap <leader>f :Telescope live_grep<CR>
 
 map <leader>o :TagbarToggle<CR>
 map <leader>gp :Ginitpull<CR>
-
-nnoremap <leader>f :Grepper<cr>
-let g:grepper = { 'next_tool': '<leader>g' }
 
 nmap <silent> <leader>d <Plug>DashSearch
 nmap <silent> <leader><leader> <C-^>
@@ -130,7 +123,7 @@ augroup filetypedetect
 augroup END
 
 " Fugitive
-nmap <leader>gs :Gstatus<cr>
+nmap <leader>gs :Git<cr>
 nmap <leader>gc :Gcommit<cr>
 nmap <leader>ga :Gwrite<cr>
 nmap <leader>gl :Glog<cr>
@@ -180,33 +173,7 @@ nnoremap <C-w>c :tabnew<CR>
 " Nerdcomment
 let g:NERDSpaceDelims=1
 
-" Neomake
-let g:neomake_scss_csslint_maker = {
-  \ 'args': ['--format=compact'],
-  \ 'errorformat':
-      \ '%-G,' .
-      \ '%-G%f: lint free!,' .
-      \ '%f: line %l\, col %c\, %trror - %m,' .
-      \ '%f: line %l\, col %c\, %tarning - %m,'.
-      \ '%f: line %l\, col %c\, %m,'
-\ }
-let g:neomake_elixir_enabled_makers = ['elixir']
-let g:neomake_ruby_enabled_makers = ['mri', 'rubocop']
-let g:neomake_javascript_enabled_makers = ['eslint', 'flow']
-let g:neomake_jsx_enabled_makers = ['eslint', 'flow']
-let g:neomake_css_enabled_makers = ['csslint']
-let g:neomake_scss_enabled_makers = ['csslint']
-" let g:neomake_python_enabled_makers = ['flake8', 'pep8']
-
-let g:neomake_javascript_eslint_exe = system('PATH=$(npm bin):$PATH && which eslint | tr -d "\n"')
-
-" let g:neomake_open_list = 2
-
-autocmd! BufWritePost * Neomake
-
-" Neoformat
-autocmd! BufWritePre *.js Neoformat prettier
-autocmd! BufWritePre *.jsx Neoformat prettier
+let g:neomake_open_list = 2
 
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.5, 'highlight': 'Comment' } }
 
@@ -258,6 +225,7 @@ tnoremap <C-[> <C-\><C-n>
 " Deoplete
 set runtimepath+=~/.vim/plugged/deoplete.nvim/
 let g:deoplete#enable_at_startup = 1
+autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
 
 " Neosnippet
 let g:neosnippet#enable_completed_snippet = 1
@@ -319,3 +287,8 @@ highlight! TermCursorNC guibg=green guifg=white ctermbg=28 ctermfg=15
 let g:neoterm_shell = "zsh"
 
 let g:calendar_google_calendar = 1
+
+let g:ale_fixers = ['prettier']
+let g:ale_fix_on_save = 1
+let g:ale_javascript_eslint_use_global = 1
+let g:ale_javascript_eslint_executable = 'eslint_d'

@@ -15,6 +15,7 @@ pip3 install --upgrade neovim
 pip3 install pynvim
 
 # Neovim
+brew install ripgrep
 brew install neovim/neovim/neovim
 curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -59,6 +60,10 @@ brew install node
 brew install yarn
 brew install the_silver_searcher
 brew install fzf
+brew install efm-langserver
+
+# Faster eslint
+yarn global install eslint_d
 
 # Screenshots directory
 mkdir ~/Screenshots
