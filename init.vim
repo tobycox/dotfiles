@@ -7,8 +7,10 @@ let g:python3_host_prog = '/opt/homebrew/bin/python3'
 call plug#begin()
 
 " Packages
+Plug 'kkharji/sqlite.lua'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-smart-history.nvim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-projectionist'
@@ -33,8 +35,8 @@ Plug 'troydm/zoomwintab.vim'
 Plug 'kassio/neoterm'
 Plug 'Shougo/deoplete.nvim'
 Plug 'wokalski/autocomplete-flow'
-" Plug 'roman/golden-ratio'
-Plug 'bronson/vim-trailing-whitespace'
+Plug 'beauwilliams/focus.nvim'
+Plug 'ntpeters/vim-better-whitespace'
 Plug 'tpope/vim-unimpaired'
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
@@ -47,6 +49,8 @@ Plug 'dense-analysis/ale'
 
 
 call plug#end()
+
+lua require("focus").setup()
 
 " Colour theme (default neovim, inherit iTerm2 scheme)
 " set encoding=utf-8
