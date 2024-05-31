@@ -9,8 +9,9 @@ call plug#begin()
 " Packages
 Plug 'kkharji/sqlite.lua'
 Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-smart-history.nvim'
+Plug 'nvim-telescope/telescope-file-browser.nvim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-projectionist'
@@ -46,6 +47,8 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'majutsushi/tagbar'
 Plug 'AndrewRadev/ginitpull.vim'
 Plug 'dense-analysis/ale'
+Plug 'github/copilot.vim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 
 call plug#end()
@@ -70,6 +73,7 @@ let mapleader = "\<Space>"
 nnoremap <leader>p :Telescope find_files<CR>
 nnoremap <leader>r :Telescope oldfiles<CR>
 nnoremap <leader>f :Telescope live_grep<CR>
+nnoremap <leader>x :Telescope file_browser<CR>
 
 map <leader>o :TagbarToggle<CR>
 map <leader>gp :Ginitpull<CR>
@@ -132,8 +136,8 @@ nmap <leader>gc :Gcommit<cr>
 nmap <leader>ga :Gwrite<cr>
 nmap <leader>gl :Glog<cr>
 nmap <leader>gd :Gdiff<cr>
-nmap <leader>gh :Gbrowse<cr>
-nmap <leader>gb :Gblame<cr>
+nmap <leader>gh :GBrowse<cr>
+nmap <leader>gb :Git blame<cr>
 
 " Markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
@@ -230,6 +234,9 @@ tnoremap <C-[> <C-\><C-n>
 set runtimepath+=~/.vim/plugged/deoplete.nvim/
 let g:deoplete#enable_at_startup = 1
 autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
+lua << EOF
+require('telescope').load_extension('file_browser')
+EOF
 
 " Neosnippet
 let g:neosnippet#enable_completed_snippet = 1
