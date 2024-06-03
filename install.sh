@@ -4,6 +4,9 @@
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 echo "source ~/dev/dotfiles/shell.sh" >> ~/.zshrc
 
+# NVM alternative
+curl -fsSL https://fnm.vercel.app/install | bash
+
 # Homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 echo 'eval $(/opt/homebrew/bin/brew shellenv)' >> ~/.zprofile
@@ -20,8 +23,7 @@ brew install neovim/neovim/neovim
 curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-mkdir -p ~/.config/nvim
-ln -s $PWD/init.vim ~/.config/nvim/init.vim
+ln -s $PWD/nvim ~/.config/nvim
 
 mkdir -p ~/.config/rubocop
 ln -s $PWD/rubocop_config.yml ~/.config/rubocop/config.yml
