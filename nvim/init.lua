@@ -79,6 +79,10 @@ vim.keymap.set("n", "<leader>l", '@+=expand("%")<CR>')
 -- Enable splitbelow
 vim.opt.splitbelow = true
 
+-- Smartcase
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
 -- Blame
 
 -- Plugin Config
