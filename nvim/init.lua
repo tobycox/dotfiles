@@ -77,6 +77,8 @@ vim.opt.splitbelow = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
+vim.opt.completeopt = "menu,menuone,noinsert"
+
 -- Blame
 
 -- Plugin Config
