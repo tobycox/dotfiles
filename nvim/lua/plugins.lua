@@ -58,9 +58,6 @@ return {
 	{
 		"numToStr/Comment.nvim",
 		opts = {
-			toggler = {
-				line = "<leader>c<space>",
-			},
 			lazy = false,
 		},
 	},
@@ -219,6 +216,13 @@ return {
 		config = function()
 			require("aider").setup()
 			vim.keymap.set("n", "<leader>a", ':lua AiderOpen("-3", "hsplit")<cr>', { noremap = true, silent = true })
+		end,
+	},
+	{
+		"s1n7ax/nvim-terminal",
+		config = function()
+			vim.o.hidden = true
+			require("nvim-terminal").setup()
 		end,
 	},
 }

@@ -62,13 +62,7 @@ vim.keymap.set("t", "<C-w>c", "<C-\\><C-n>:tabnew<CR>")
 vim.keymap.set("t", "<^-K>", "<C-\\><C-n><C-w>K")
 
 -- Some nice terminal config
-vim.keymap.set("n", "<leader>to", ":terminal<CR>")
-vim.keymap.set("n", "<leader>tt", ":botright terminal<CR>")
-vim.api.nvim_create_autocmd("TermOpen", {
-	callback = function()
-		vim.cmd("startinsert!")
-	end,
-})
+vim.api.nvim_command("autocmd TermOpen * setlocal nonumber norelativenumber")
 
 -- Neogit
 vim.keymap.set("n", "<leader>gs", ":Neogit<CR>")
@@ -83,6 +77,7 @@ vim.opt.splitbelow = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
+-- Hide line numbers in terminal
 -- Blame
 
 -- Plugin Config
