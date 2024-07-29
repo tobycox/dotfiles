@@ -26,7 +26,7 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
 -- Relative line numbers
-vim.wo.relativenumber = true
+vim.wo.number = true
 
 -- Bounce back files
 vim.keymap.set("n", "<leader><leader>", "<C-^>")
@@ -77,7 +77,6 @@ vim.opt.splitbelow = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
--- Hide line numbers in terminal
 -- Blame
 
 -- Plugin Config
