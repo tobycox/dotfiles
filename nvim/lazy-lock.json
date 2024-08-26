@@ -13,6 +13,7 @@
   "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   "focus.nvim": { "branch": "master", "commit": "4135f976afe5d6e1fe66dff121db9d06643f439f" },
   "lazy.nvim": { "branch": "main", "commit": "16a5c46aa3d05d37eb9c49f57ab058033b0870a6" },
+  "lsp-zero.nvim": { "branch": "v4.x", "commit": "0161aeab61d407aa1d43326a5dfc33479f4c53f6" },
   "lspkind-nvim": { "branch": "master", "commit": "cff4ae321a91ee3473a92ea1a8c637e3a9510aec" },
   "lualine.nvim": { "branch": "master", "commit": "544dd1583f9bb27b393f598475c89809c4d5e86b" },
   "mason-conform.nvim": { "branch": "main", "commit": "abce2be529f3b4b336c56d0ba6336a9144e0fee6" },

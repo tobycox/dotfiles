@@ -144,36 +144,40 @@ return {
 			vim.keymap.set("n", "<leader>gb", ":BlameToggle<CR>")
 		end,
 	},
+	{ "neovim/nvim-lspconfig" },
+	{ "hrsh7th/cmp-nvim-lsp" },
+	{ "hrsh7th/nvim-cmp" },
 	{
 		"neovim/nvim-lspconfig",
-		opts = {
-			signcolumn = "yes",
-			lazy = false,
-			servers = {
-				ruby_ls = {
-					autostart = true,
-					on_attach = function(client, bufnr)
-						-- client.server_capabilities.documentFormattingProvider = true -- This is actually not required for me, but try to add it
-						client.server_capabilities.semanticTokensProvider = false -- Avoids incorrect highlightning for classes
-					end,
-				},
-				eslint = {
-					filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-				},
-			},
-		},
+	},
+	{
+		"VonHeikemen/lsp-zero.nvim",
 		config = function()
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = "ruby",
-				callback = function()
-					vim.lsp.start({
-						name = "rubocop",
-						cmd = { "bundle", "exec", "rubocop", "--lsp" },
-					})
-				end,
+			local lsp_zero = require("lsp-zero")
+
+			local lsp_attach = function(client, bufnr)
+				local opts = { buffer = bufnr }
+
+				vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
+				vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
+				vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
+				vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
+				vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
+				vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
+				vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
+				vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
+				vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
+				vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+			end
+
+			lsp_zero.extend_lspconfig({
+				sign_text = true,
+				lsp_attach = lsp_attach,
+				capabilities = require("cmp_nvim_lsp").default_capabilities(),
 			})
-			local lspconfig = require("lspconfig")
-			lspconfig.tsserver.setup({})
+
+			require("lspconfig").eslint.setup({})
+			require("lspconfig").rubocop.setup({})
 		end,
 	},
 	{
@@ -312,7 +316,7 @@ return {
 	},
 	{
 		"pmizio/typescript-tools.nvim",
-		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		dependencies = { "VonHeikemen/lsp-zero.nvim", "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
 		opts = {},
 	},
 }
