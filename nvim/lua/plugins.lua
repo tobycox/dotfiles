@@ -66,7 +66,23 @@ return {
 	} },
 	{
 		"folke/trouble.nvim",
-		opts = {}, -- for default options, refer to the configuration section for custom setup.
+		opts = {
+			modes = {
+				preview_float = {
+					mode = "diagnostics",
+					preview = {
+						type = "float",
+						relative = "editor",
+						border = "rounded",
+						title = "Preview",
+						title_pos = "center",
+						position = { 0, -2 },
+						size = { width = 0.3, height = 0.3 },
+						zindex = 200,
+					},
+				},
+			},
+		}, -- for default options, refer to the configuration section for custom setup.
 		cmd = "Trouble",
 		keys = {
 			{
@@ -115,9 +131,6 @@ return {
 		config = true,
 	},
 	{
-		"neovim/nvim-lspconfig",
-	},
-	{
 		"williamboman/mason.nvim",
 		dependencies = {
 			"williamboman/mason-lspconfig.nvim",
@@ -144,6 +157,9 @@ return {
 						client.server_capabilities.semanticTokensProvider = false -- Avoids incorrect highlightning for classes
 					end,
 				},
+				eslint = {
+					filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+				},
 			},
 		},
 		config = function()
@@ -156,6 +172,8 @@ return {
 					})
 				end,
 			})
+			local lspconfig = require("lspconfig")
+			lspconfig.tsserver.setup({})
 		end,
 	},
 	{
@@ -199,20 +217,17 @@ return {
 		"s1n7ax/nvim-terminal",
 		config = function()
 			vim.o.hidden = true
-			require("nvim-terminal").setup()
+			require("nvim-terminal").setup({
+				window = {
+					height = 30,
+				},
+			})
 		end,
 	},
 	{
 		"sitiom/nvim-numbertoggle",
 		cond = vim.g.smart_relativenumber,
 		lazy = false,
-	},
-	{
-		"neovim/nvim-lspconfig",
-		config = function()
-			local lspconfig = require("lspconfig")
-			lspconfig.tsserver.setup({})
-		end,
 	},
 	{
 		"onsails/lspkind-nvim",
@@ -294,5 +309,10 @@ return {
 				},
 			})
 		end,
+	},
+	{
+		"pmizio/typescript-tools.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		opts = {},
 	},
 }
