@@ -1,5 +1,13 @@
 return {
 	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		priority = 1000,
+		config = function()
+			vim.cmd.colorscheme("catppuccin-mocha")
+		end,
+	},
+	{
 		"nvim-telescope/telescope-file-browser.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
 		keys = {
@@ -17,16 +25,6 @@ return {
 				desc = "Telescope File Browser",
 			},
 		},
-	},
-	{
-		"maxmx03/solarized.nvim",
-		lazy = false,
-		priority = 1000,
-		config = function()
-			vim.o.background = "dark" -- or 'light'
-
-			vim.cmd.colorscheme("solarized")
-		end,
 	},
 	{ "echasnovski/mini.nvim", version = "*" },
 	{
@@ -211,13 +209,6 @@ return {
 		end,
 	},
 	{
-		"joshuavial/aider.nvim",
-		config = function()
-			require("aider").setup()
-			vim.keymap.set("n", "<leader>a", ':lua AiderOpen("-3", "hsplit")<cr>', { noremap = true, silent = true })
-		end,
-	},
-	{
 		"s1n7ax/nvim-terminal",
 		config = function()
 			vim.o.hidden = true
@@ -318,5 +309,54 @@ return {
 		"pmizio/typescript-tools.nvim",
 		dependencies = { "VonHeikemen/lsp-zero.nvim", "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
 		opts = {},
+	},
+	{
+		"yetone/avante.nvim",
+		event = "VeryLazy",
+		build = "make",
+		opts = {
+			-- add any opts here
+		},
+		dependencies = {
+			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+			"stevearc/dressing.nvim",
+			"nvim-lua/plenary.nvim",
+			"MunifTanjim/nui.nvim",
+			--- The below is optional, make sure to setup it properly if you have lazy=true
+			{
+				"MeanderingProgrammer/render-markdown.nvim",
+				opts = {
+					file_types = { "markdown", "Avante" },
+				},
+				ft = { "markdown", "Avante" },
+			},
+		},
+		config = function()
+			require("avante").setup()
+			vim.opt.laststatus = 2
+		end,
+	},
+	{
+		"joshuavial/aider.nvim",
+		config = function()
+			require("aider").setup()
+			vim.keymap.set("n", "<leader>ai", ':lua AiderOpen("-3", "hsplit")<cr>', { noremap = true, silent = true })
+		end,
+	},
+	{
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v3.x",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+			"MunifTanjim/nui.nvim",
+			-- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+		},
+	},
+	{
+		"norcalli/nvim-colorizer.lua",
+		config = function()
+			require("colorizer").setup()
+		end,
 	},
 }

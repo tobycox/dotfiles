@@ -117,3 +117,6 @@ require("tabby").setup({
 require("mason").setup()
 
 vim.lsp.set_log_level("debug")
+
+vim.opt.laststatus = 2
+vim.opt.splitkeep = "screen"
