@@ -5,6 +5,9 @@ return {
 		priority = 1000,
 		config = function()
 			vim.cmd.colorscheme("catppuccin-mocha")
+			vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#8c8fa1" })
+			vim.api.nvim_set_hl(0, "LineNr", { fg = "#9ca0b0", bold = true })
+			vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#8c8fa1" })
 		end,
 	},
 	{
@@ -120,13 +123,23 @@ return {
 		dependencies = "nvim-tree/nvim-web-devicons",
 	},
 	{
-		"NeogitOrg/neogit",
+		"kdheepak/lazygit.nvim",
+		cmd = {
+			"LazyGit",
+			"LazyGitConfig",
+			"LazyGitCurrentFile",
+			"LazyGitFilter",
+			"LazyGitFilterCurrentFile",
+		},
+		-- optional for floating window border decoration
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"sindrets/diffview.nvim",
-			"nvim-telescope/telescope.nvim",
 		},
-		config = true,
+		-- setting the keybinding for LazyGit with 'keys' is recommended in
+		-- order to load the plugin when the command is run for the first time
+		keys = {
+			{ "<leader>gs", "<cmd>LazyGit<cr>", desc = "LazyGit" },
+		},
 	},
 	{
 		"williamboman/mason.nvim",
@@ -163,9 +176,9 @@ return {
 				vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
 				vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
 				vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
-				vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-				vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
-				vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+				vim.keymap.set("n", "lr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
+				vim.keymap.set({ "n", "x" }, "lf", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
+				vim.keymap.set("n", "la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 			end
 
 			lsp_zero.extend_lspconfig({
@@ -176,6 +189,7 @@ return {
 
 			require("lspconfig").eslint.setup({})
 			require("lspconfig").rubocop.setup({})
+			require("lspconfig").gopls.setup({})
 		end,
 	},
 	{
@@ -187,6 +201,7 @@ return {
 					javascript = { "prettierd", "prettier", stop_after_first = true },
 					typescript = { "prettierd", "prettier", stop_after_first = true },
 					typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+					go = { { "gofmt", "-s" }, { "goimports", "-w" } },
 				},
 				format_on_save = {
 					-- These options will be passed to conform.format()
@@ -279,7 +294,6 @@ return {
 					{ name = "buffer", keyword_length = 4 }, -- for buffer word completion
 					{ name = "omni" },
 					{ name = "emoji", insert = true }, -- emoji completion
-					{ name = "supermaven" },
 				},
 				completion = {
 					keyword_length = 1,
@@ -308,7 +322,13 @@ return {
 	{
 		"pmizio/typescript-tools.nvim",
 		dependencies = { "VonHeikemen/lsp-zero.nvim", "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-		opts = {},
+		opts = {
+			tsserver_file_preferences = {
+				includeInlayParameterNameHints = "all",
+				includeCompletionsForModuleExports = true,
+				quotePreference = "auto",
+			},
+		},
 	},
 	{
 		"yetone/avante.nvim",
@@ -344,19 +364,83 @@ return {
 		end,
 	},
 	{
-		"nvim-neo-tree/neo-tree.nvim",
-		branch = "v3.x",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-			"MunifTanjim/nui.nvim",
-			-- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
-		},
-	},
-	{
 		"norcalli/nvim-colorizer.lua",
 		config = function()
 			require("colorizer").setup()
+		end,
+	},
+	{
+		"stevearc/oil.nvim",
+		---@module 'oil'
+		---@type oil.SetupOpts
+		opts = {},
+		-- Optional dependencies
+		dependencies = { { "echasnovski/mini.icons", opts = {} } },
+		-- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
+		config = function()
+			require("oil").setup()
+			vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+		end,
+	},
+	{
+		"ThePrimeagen/harpoon",
+		branch = "harpoon2",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			local harpoon = require("harpoon")
+
+			-- REQUIRED
+			harpoon:setup()
+			-- REQUIRED
+
+			vim.keymap.set("n", "<leader>a", function()
+				harpoon:list():add()
+			end)
+			vim.keymap.set("n", "<C-e>", function()
+				harpoon.ui:toggle_quick_menu(harpoon:list())
+			end)
+
+			-- vim.keymap.set("n", "<C-h>", function()
+			-- 	harpoon:list():select(1)
+			-- end)
+			-- vim.keymap.set("n", "<C-t>", function()
+			-- 	harpoon:list():select(2)
+			-- end)
+			-- vim.keymap.set("n", "<C-n>", function()
+			-- 	harpoon:list():select(3)
+			-- end)
+
+			-- Toggle previous & next buffers stored within Harpoon list
+			vim.keymap.set("n", "<C-S-P>", function()
+				harpoon:list():prev()
+			end)
+			vim.keymap.set("n", "<C-S-N>", function()
+				harpoon:list():next()
+			end)
+
+			-- basic telescope configuration
+			local conf = require("telescope.config").values
+			local function toggle_telescope(harpoon_files)
+				local file_paths = {}
+				for _, item in ipairs(harpoon_files.items) do
+					table.insert(file_paths, item.value)
+				end
+
+				require("telescope.pickers")
+					.new({}, {
+						prompt_title = "Harpoon",
+						finder = require("telescope.finders").new_table({
+							results = file_paths,
+						}),
+						previewer = conf.file_previewer({}),
+						sorter = conf.generic_sorter({}),
+					})
+					:find()
+			end
+
+			vim.keymap.set("n", "<C-e>", function()
+				toggle_telescope(harpoon:list())
+			end, { desc = "Open harpoon window" })
 		end,
 	},
 }

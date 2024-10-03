@@ -120,3 +120,6 @@ vim.lsp.set_log_level("debug")
 
 vim.opt.laststatus = 2
 vim.opt.splitkeep = "screen"
+
+-- Use current vim session
+vim.fn.setenv("EDITOR", 'nvr --nostart --remote-tab-wait +"set bufhidden=delete"')

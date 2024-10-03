@@ -63,9 +63,7 @@ brew install yarn
 brew install the_silver_searcher
 brew install fzf
 brew install efm-langserver
-
-# Faster eslint
-yarn global install eslint_d
+brew install neovim-remote
 
 # Screenshots directory
 mkdir ~/Screenshots
