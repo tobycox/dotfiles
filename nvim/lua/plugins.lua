@@ -29,7 +29,30 @@ return {
 			},
 		},
 	},
-	{ "echasnovski/mini.nvim", version = "*" },
+	{
+		"echasnovski/mini.nvim",
+		version = "*",
+		config = function()
+			require("mini.notify").setup()
+			require("mini.files").setup()
+
+			vim.keymap.set("n", "<leader>l", ':lua MiniFiles.open(vim.fn.expand("%:p:h"))<CR>')
+
+			local hipatterns = require("mini.hipatterns")
+			hipatterns.setup({
+				highlighters = {
+					-- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
+					fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
+					hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
+					todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
+					note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
+
+					-- Highlight hex color strings (`#rrggbb`) using that color
+					hex_color = hipatterns.gen_highlighter.hex_color(),
+				},
+			})
+		end,
+	},
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -122,25 +145,35 @@ return {
 		"nanozuki/tabby.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
 	},
+	{ "danishprakash/vim-githubinator" },
 	{
-		"kdheepak/lazygit.nvim",
-		cmd = {
-			"LazyGit",
-			"LazyGitConfig",
-			"LazyGitCurrentFile",
-			"LazyGitFilter",
-			"LazyGitFilterCurrentFile",
-		},
-		-- optional for floating window border decoration
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-		},
-		-- setting the keybinding for LazyGit with 'keys' is recommended in
-		-- order to load the plugin when the command is run for the first time
-		keys = {
-			{ "<leader>gs", "<cmd>LazyGit<cr>", desc = "LazyGit" },
-		},
+		"lewis6991/gitsigns.nvim",
+		event = "BufReadPre",
+
+		config = function()
+			require("gitsigns").setup({})
+		end,
 	},
+	{
+		"NeogitOrg/neogit",
+		dependencies = {
+			"nvim-lua/plenary.nvim", -- required
+			"sindrets/diffview.nvim", -- optional - Diff integration
+
+			-- Only one of these is needed.
+			"nvim-telescope/telescope.nvim", -- optional
+		},
+		config = function()
+			require("neogit").setup({
+				integrations = {
+					diffview = true,
+					telescope = true,
+				},
+			})
+			vim.keymap.set("n", "<leader>gs", ":Neogit kind=vsplit<CR>")
+		end,
+	},
+
 	{
 		"williamboman/mason.nvim",
 		dependencies = {
@@ -220,7 +253,11 @@ return {
 	{
 		"supermaven-inc/supermaven-nvim",
 		config = function()
-			require("supermaven-nvim").setup({})
+			require("supermaven-nvim").setup({
+				keymaps = {
+					accept_suggestion = "<C-k>",
+				},
+			})
 		end,
 	},
 	{
@@ -331,55 +368,35 @@ return {
 		},
 	},
 	{
-		"yetone/avante.nvim",
-		event = "VeryLazy",
-		build = "make",
-		opts = {
-			-- add any opts here
-		},
+		"olimorris/codecompanion.nvim",
 		dependencies = {
-			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-			"stevearc/dressing.nvim",
 			"nvim-lua/plenary.nvim",
-			"MunifTanjim/nui.nvim",
-			--- The below is optional, make sure to setup it properly if you have lazy=true
-			{
-				"MeanderingProgrammer/render-markdown.nvim",
-				opts = {
-					file_types = { "markdown", "Avante" },
-				},
-				ft = { "markdown", "Avante" },
-			},
+			"nvim-treesitter/nvim-treesitter",
+			"hrsh7th/nvim-cmp", -- Optional: For using slash commands and variables in the chat buffer
+			"nvim-telescope/telescope.nvim", -- Optional: For using slash commands
+			{ "stevearc/dressing.nvim", opts = {} }, -- Optional: Improves `vim.ui.select`
 		},
 		config = function()
-			require("avante").setup()
-			vim.opt.laststatus = 2
-		end,
-	},
-	{
-		"joshuavial/aider.nvim",
-		config = function()
-			require("aider").setup()
-			vim.keymap.set("n", "<leader>ai", ':lua AiderOpen("-3", "hsplit")<cr>', { noremap = true, silent = true })
-		end,
-	},
-	{
-		"norcalli/nvim-colorizer.lua",
-		config = function()
-			require("colorizer").setup()
-		end,
-	},
-	{
-		"stevearc/oil.nvim",
-		---@module 'oil'
-		---@type oil.SetupOpts
-		opts = {},
-		-- Optional dependencies
-		dependencies = { { "echasnovski/mini.icons", opts = {} } },
-		-- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
-		config = function()
-			require("oil").setup()
-			vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+			require("codecompanion").setup()
+
+			vim.api.nvim_set_keymap("n", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap("v", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap(
+				"n",
+				"<LocalLeader>ai",
+				"<cmd>CodeCompanionChat Toggle<cr>",
+				{ noremap = true, silent = true }
+			)
+			vim.api.nvim_set_keymap(
+				"v",
+				"<LocalLeader>ai",
+				"<cmd>CodeCompanionChat Toggle<cr>",
+				{ noremap = true, silent = true }
+			)
+			vim.api.nvim_set_keymap("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
+
+			-- Expand 'cc' into 'CodeCompanion' in the command line
+			vim.cmd([[cab cc CodeCompanion]])
 		end,
 	},
 	{
@@ -420,20 +437,42 @@ return {
 
 			-- basic telescope configuration
 			local conf = require("telescope.config").values
+
 			local function toggle_telescope(harpoon_files)
-				local file_paths = {}
-				for _, item in ipairs(harpoon_files.items) do
-					table.insert(file_paths, item.value)
+				local finder = function()
+					local paths = {}
+					for _, item in ipairs(harpoon_files.items) do
+						table.insert(paths, item.value)
+					end
+
+					return require("telescope.finders").new_table({
+						results = paths,
+					})
 				end
 
 				require("telescope.pickers")
 					.new({}, {
 						prompt_title = "Harpoon",
-						finder = require("telescope.finders").new_table({
-							results = file_paths,
-						}),
-						previewer = conf.file_previewer({}),
-						sorter = conf.generic_sorter({}),
+						finder = finder(),
+						previewer = false,
+						sorter = require("telescope.config").values.generic_sorter({}),
+						layout_config = {
+							height = 0.4,
+							width = 0.5,
+							prompt_position = "top",
+							preview_cutoff = 120,
+						},
+						attach_mappings = function(prompt_bufnr, map)
+							map("i", "<C-d>", function()
+								local state = require("telescope.actions.state")
+								local selected_entry = state.get_selected_entry()
+								local current_picker = state.get_current_picker(prompt_bufnr)
+
+								table.remove(harpoon_files.items, selected_entry.index)
+								current_picker:refresh(finder())
+							end)
+							return true
+						end,
 					})
 					:find()
 			end
@@ -443,4 +482,5 @@ return {
 			end, { desc = "Open harpoon window" })
 		end,
 	},
+	{ "tpope/vim-abolish" },
 }
