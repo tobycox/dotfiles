@@ -35,8 +35,9 @@ return {
 		config = function()
 			require("mini.notify").setup()
 			require("mini.files").setup()
-
 			vim.keymap.set("n", "<leader>l", ':lua MiniFiles.open(vim.fn.expand("%:p:h"))<CR>')
+
+			require("mini.bracketed").setup()
 
 			local hipatterns = require("mini.hipatterns")
 			hipatterns.setup({
@@ -77,8 +78,40 @@ return {
 			},
 		},
 	},
-	{ "nvim-focus/focus.nvim", version = "*" },
-	-- { 'github/copilot.vim' },
+	-- {
+	-- 	"nvim-focus/focus.nvim",
+	-- 	version = "*",
+	-- 	config = function()
+	-- 		local ignore_filetypes = { "neo-tree" }
+	-- 		local ignore_buftypes = { "nofile", "prompt", "popup", "terminal", "help", "quickfix" }
+	--
+	-- 		local augroup = vim.api.nvim_create_augroup("FocusDisable", { clear = true })
+	--
+	-- 		vim.api.nvim_create_autocmd("WinEnter", {
+	-- 			group = augroup,
+	-- 			callback = function(_)
+	-- 				if vim.tbl_contains(ignore_buftypes, vim.bo.buftype) then
+	-- 					vim.w.focus_disable = true
+	-- 				else
+	-- 					vim.w.focus_disable = false
+	-- 				end
+	-- 			end,
+	-- 			desc = "Disable focus autoresize for BufType",
+	-- 		})
+	--
+	-- 		vim.api.nvim_create_autocmd("FileType", {
+	-- 			group = augroup,
+	-- 			callback = function(_)
+	-- 				if vim.tbl_contains(ignore_filetypes, vim.bo.filetype) then
+	-- 					vim.b.focus_disable = true
+	-- 				else
+	-- 					vim.b.focus_disable = false
+	-- 				end
+	-- 			end,
+	-- 			desc = "Disable focus autoresize for FileType",
+	-- 		})
+	-- 	end,
+	-- },
 	{
 		"numToStr/Comment.nvim",
 		opts = {
@@ -155,25 +188,24 @@ return {
 		end,
 	},
 	{
-		"NeogitOrg/neogit",
-		dependencies = {
-			"nvim-lua/plenary.nvim", -- required
-			"sindrets/diffview.nvim", -- optional - Diff integration
-
-			-- Only one of these is needed.
-			"nvim-telescope/telescope.nvim", -- optional
+		"kdheepak/lazygit.nvim",
+		cmd = {
+			"LazyGit",
+			"LazyGitConfig",
+			"LazyGitCurrentFile",
+			"LazyGitFilter",
+			"LazyGitFilterCurrentFile",
 		},
-		config = function()
-			require("neogit").setup({
-				integrations = {
-					diffview = true,
-					telescope = true,
-				},
-			})
-			vim.keymap.set("n", "<leader>gs", ":Neogit kind=vsplit<CR>")
-		end,
+		-- optional for floating window border decoration
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		-- setting the keybinding for LazyGit with 'keys' is recommended in
+		-- order to load the plugin when the command is run for the first time
+		keys = {
+			{ "<leader>gs", "<cmd>LazyGit<cr>", desc = "LazyGit" },
+		},
 	},
-
 	{
 		"williamboman/mason.nvim",
 		dependencies = {
@@ -209,9 +241,9 @@ return {
 				vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
 				vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
 				vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
-				vim.keymap.set("n", "lr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-				vim.keymap.set({ "n", "x" }, "lf", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
-				vim.keymap.set("n", "la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+				vim.keymap.set("n", "cr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
+				vim.keymap.set({ "n", "x" }, "cf", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
+				vim.keymap.set("n", "ca", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 			end
 
 			lsp_zero.extend_lspconfig({
@@ -365,39 +397,88 @@ return {
 				includeCompletionsForModuleExports = true,
 				quotePreference = "auto",
 			},
+			expose_as_code_action = "all",
 		},
 	},
+	-- {
+	-- 	"olimorris/codecompanion.nvim",
+	-- 	dependencies = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"nvim-treesitter/nvim-treesitter",
+	-- 		"hrsh7th/nvim-cmp", -- Optional: For using slash commands and variables in the chat buffer
+	-- 		"nvim-telescope/telescope.nvim", -- Optional: For using slash commands
+	-- 		{ "stevearc/dressing.nvim", opts = {} }, -- Optional: Improves `vim.ui.select`
+	-- 	},
+	-- 	config = function()
+	-- 		require("codecompanion").setup()
+	--
+	-- 		vim.api.nvim_set_keymap("n", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+	-- 		vim.api.nvim_set_keymap("v", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+	-- 		vim.api.nvim_set_keymap(
+	-- 			"n",
+	-- 			"<LocalLeader>ai",
+	-- 			"<cmd>CodeCompanionChat Toggle<cr>",
+	-- 			{ noremap = true, silent = true }
+	-- 		)
+	-- 		vim.api.nvim_set_keymap(
+	-- 			"v",
+	-- 			"<LocalLeader>ai",
+	-- 			"<cmd>CodeCompanionChat Toggle<cr>",
+	-- 			{ noremap = true, silent = true }
+	-- 		)
+	-- 		vim.api.nvim_set_keymap("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
+	--
+	-- 		-- Expand 'cc' into 'CodeCompanion' in the command line
+	-- 		vim.cmd([[cab cc CodeCompanion]])
+	-- 	end,
+	-- },
 	{
-		"olimorris/codecompanion.nvim",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
-			"hrsh7th/nvim-cmp", -- Optional: For using slash commands and variables in the chat buffer
-			"nvim-telescope/telescope.nvim", -- Optional: For using slash commands
-			{ "stevearc/dressing.nvim", opts = {} }, -- Optional: Improves `vim.ui.select`
+		"yetone/avante.nvim",
+		event = "VeryLazy",
+		lazy = false,
+		version = false, -- set this if you want to always pull the latest change
+		opts = {
+			-- add any opts here
 		},
-		config = function()
-			require("codecompanion").setup()
-
-			vim.api.nvim_set_keymap("n", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
-			vim.api.nvim_set_keymap("v", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
-			vim.api.nvim_set_keymap(
-				"n",
-				"<LocalLeader>ai",
-				"<cmd>CodeCompanionChat Toggle<cr>",
-				{ noremap = true, silent = true }
-			)
-			vim.api.nvim_set_keymap(
-				"v",
-				"<LocalLeader>ai",
-				"<cmd>CodeCompanionChat Toggle<cr>",
-				{ noremap = true, silent = true }
-			)
-			vim.api.nvim_set_keymap("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
-
-			-- Expand 'cc' into 'CodeCompanion' in the command line
-			vim.cmd([[cab cc CodeCompanion]])
-		end,
+		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+		build = "make",
+		-- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+		behavious = {
+			support_paste_from_clipboard = true,
+		},
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"stevearc/dressing.nvim",
+			"nvim-lua/plenary.nvim",
+			"MunifTanjim/nui.nvim",
+			--- The below dependencies are optional,
+			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+			{
+				-- support for image pasting
+				"HakonHarnes/img-clip.nvim",
+				event = "VeryLazy",
+				opts = {
+					-- recommended settings
+					default = {
+						embed_image_as_base64 = true,
+						prompt_for_file_name = false,
+						drag_and_drop = {
+							insert_mode = true,
+						},
+						-- required for Windows users
+						use_absolute_path = true,
+					},
+				},
+			},
+			{
+				-- Make sure to set this up properly if you have lazy=true
+				"MeanderingProgrammer/render-markdown.nvim",
+				opts = {
+					file_types = { "markdown", "Avante" },
+				},
+				ft = { "markdown", "Avante" },
+			},
+		},
 	},
 	{
 		"ThePrimeagen/harpoon",
@@ -409,31 +490,6 @@ return {
 			-- REQUIRED
 			harpoon:setup()
 			-- REQUIRED
-
-			vim.keymap.set("n", "<leader>a", function()
-				harpoon:list():add()
-			end)
-			vim.keymap.set("n", "<C-e>", function()
-				harpoon.ui:toggle_quick_menu(harpoon:list())
-			end)
-
-			-- vim.keymap.set("n", "<C-h>", function()
-			-- 	harpoon:list():select(1)
-			-- end)
-			-- vim.keymap.set("n", "<C-t>", function()
-			-- 	harpoon:list():select(2)
-			-- end)
-			-- vim.keymap.set("n", "<C-n>", function()
-			-- 	harpoon:list():select(3)
-			-- end)
-
-			-- Toggle previous & next buffers stored within Harpoon list
-			vim.keymap.set("n", "<C-S-P>", function()
-				harpoon:list():prev()
-			end)
-			vim.keymap.set("n", "<C-S-N>", function()
-				harpoon:list():next()
-			end)
 
 			-- basic telescope configuration
 			local conf = require("telescope.config").values
@@ -477,10 +533,25 @@ return {
 					:find()
 			end
 
+			vim.keymap.set("n", "<leader>a", function()
+				harpoon:list():add()
+			end)
+
 			vim.keymap.set("n", "<C-e>", function()
 				toggle_telescope(harpoon:list())
 			end, { desc = "Open harpoon window" })
+
+			-- Toggle previous & next buffers stored within Harpoon list
+			vim.keymap.set("n", "<C-S-P>", function()
+				harpoon:list():prev()
+			end)
+			vim.keymap.set("n", "<C-S-N>", function()
+				harpoon:list():next()
+			end)
+
+			vim.keymap.set("n", "<leader>th", function()
+				harpoon.ui:toggle_quick_menu(harpoon:list("term"))
+			end, { desc = "Open harpoon's list of terminals " })
 		end,
 	},
-	{ "tpope/vim-abolish" },
 }
