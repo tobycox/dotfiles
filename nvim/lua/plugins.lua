@@ -222,7 +222,6 @@ return {
 	},
 	{ "neovim/nvim-lspconfig" },
 	{ "hrsh7th/cmp-nvim-lsp" },
-	{ "hrsh7th/nvim-cmp" },
 	{
 		"neovim/nvim-lspconfig",
 	},
@@ -255,6 +254,7 @@ return {
 			require("lspconfig").eslint.setup({})
 			require("lspconfig").rubocop.setup({})
 			require("lspconfig").gopls.setup({})
+			require("lspconfig").tailwindcss.setup({})
 		end,
 	},
 	{
@@ -443,8 +443,24 @@ return {
 		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
 		build = "make",
 		-- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
-		behavious = {
+		behaviour = {
 			support_paste_from_clipboard = true,
+			minimize_diff = false,
+		},
+		file_selector = {
+			provider = "telescope",
+			-- Options override for custom providers
+			provider_opts = {},
+		},
+		keys = {
+			{
+				"<leader>ip",
+				function()
+					return vim.bo.filetype == "AvanteInput" and require("avante.clipboard").paste_image()
+						or require("img-clip").paste_image()
+				end,
+				desc = "clip: paste image",
+			},
 		},
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
@@ -553,5 +569,23 @@ return {
 				harpoon.ui:toggle_quick_menu(harpoon:list("term"))
 			end, { desc = "Open harpoon's list of terminals " })
 		end,
+	},
+	{
+		"christoomey/vim-tmux-navigator",
+		cmd = {
+			"TmuxNavigateLeft",
+			"TmuxNavigateDown",
+			"TmuxNavigateUp",
+			"TmuxNavigateRight",
+			"TmuxNavigatePrevious",
+			"TmuxNavigatorProcessList",
+		},
+		keys = {
+			{ "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+			{ "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+			{ "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+			{ "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+			{ "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+		},
 	},
 }

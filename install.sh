@@ -68,3 +68,8 @@ brew install neovim-remote
 # Screenshots directory
 mkdir ~/Screenshots
 defaults write com.apple.screencapture location ~/Screenshots
+
+# Ghostty
+brew install --cask ghostty
+mkdir ~/.config/ghostty
+ln -s ~/dev/dotfiles/ghostty.config ~/.config/ghostty/config

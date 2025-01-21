@@ -40,7 +40,7 @@ alias ibrew='arch -x86_64 /usr/local/bin/brew'
 
 # Python
 export PATH="/opt/homebrew/opt/python@3.8/bin:$PATH"
-export VIRTUALENVWRAPPER_PYTHON=/opt/homebrew/bin/python3
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/dev
-source /opt/homebrew/bin/virtualenvwrapper.sh
+# export VIRTUALENVWRAPPER_PYTHON=/opt/homebrew/bin/python3
+# export WORKON_HOME=$HOME/.virtualenvs
+# export PROJECT_HOME=$HOME/dev
+# source /opt/homebrew/bin/virtualenvwrapper.sh
