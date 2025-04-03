@@ -44,3 +44,5 @@ export PATH="/opt/homebrew/opt/python@3.8/bin:$PATH"
 # export WORKON_HOME=$HOME/.virtualenvs
 # export PROJECT_HOME=$HOME/dev
 # source /opt/homebrew/bin/virtualenvwrapper.sh
+
+chruby 3.4.1

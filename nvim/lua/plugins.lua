@@ -11,12 +11,34 @@ return {
 		end,
 	},
 	{
+		"nvim-telescope/telescope.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		config = function()
+			require("telescope").setup({
+				defaults = {
+					mappings = {
+						n = {
+							["<c-d>"] = require("telescope.actions").delete_buffer,
+						}, -- n
+						i = {
+							["<C-h>"] = "which_key",
+							["<c-d>"] = require("telescope.actions").delete_buffer,
+						}, -- i
+					}, -- mappings
+				}, -- defaults
+			}) -- telescope setup
+		end,
+	},
+	{
 		"nvim-telescope/telescope-file-browser.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
 		keys = {
 			{ "<leader>p", "<cmd>Telescope find_files path=%:p:h select_buffer=true<cr>", desc = "Telescope Find" },
 			{ "<leader>r", "<cmd>Telescope oldfiles path=%:p:h select_buffer=true<cr>", desc = "Telescope Old Files" },
 			{ "<leader>f", "<cmd>Telescope live_grep path=%:p:h select_buffer=true<cr>", desc = "Telescope Grep" },
+			{ "<leader>o", "<cmd>Telescope buffers path=%:p:h select_buffer=true<cr>", desc = "Telescope Buffers" },
 			{
 				"<leader>g",
 				"<cmd>Telescope grep_string path=%:p:h select_buffer=true<cr>",
@@ -57,6 +79,13 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
+	},
+	{
+		"alvarosevilla95/luatab.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("luatab").setup()
+		end,
 	},
 	{
 		"chrisgrieser/nvim-spider",
@@ -174,10 +203,10 @@ return {
 			},
 		},
 	},
-	{
-		"nanozuki/tabby.nvim",
-		dependencies = "nvim-tree/nvim-web-devicons",
-	},
+	-- {
+	-- 	"nanozuki/tabby.nvim",
+	-- 	dependencies = "nvim-tree/nvim-web-devicons",
+	-- },
 	{ "danishprakash/vim-githubinator" },
 	{
 		"lewis6991/gitsigns.nvim",
@@ -188,23 +217,27 @@ return {
 		end,
 	},
 	{
-		"kdheepak/lazygit.nvim",
-		cmd = {
-			"LazyGit",
-			"LazyGitConfig",
-			"LazyGitCurrentFile",
-			"LazyGitFilter",
-			"LazyGitFilterCurrentFile",
-		},
-		-- optional for floating window border decoration
+		"tpope/vim-fugitive",
+		config = function()
+			vim.keymap.set("n", "<leader>gs", "<cmd>tab Git<cr>", { desc = "Git Status" })
+			vim.keymap.set("n", "<leader>gc", "<cmd>tab Git commit<cr>", { desc = "Git Commit" })
+			vim.keymap.set("n", "<leader>ga", "<cmd>tab Git add<cr>", { desc = "Git Add" })
+			vim.keymap.set("n", "<leader>gl", "<cmd>tab Git log<cr>", { desc = "Git Log" })
+			vim.keymap.set("n", "<leader>gd", "<cmd>tab Git diff<cr>", { desc = "Git Diff" })
+			vim.keymap.set("n", "<leader>gb", "<cmd>tab Git blame<cr>", { desc = "Git Blame" })
+		end,
+	},
+	{
+		"tpope/vim-rhubarb",
 		dependencies = {
-			"nvim-lua/plenary.nvim",
+			"tpope/vim-fugitive",
 		},
-		-- setting the keybinding for LazyGit with 'keys' is recommended in
-		-- order to load the plugin when the command is run for the first time
-		keys = {
-			{ "<leader>gs", "<cmd>LazyGit<cr>", desc = "LazyGit" },
-		},
+		config = function()
+			vim.keymap.set("n", "<leader>gh", "<cmd>GBrowse<cr>", { desc = "Git Browse" })
+		end,
+	},
+	{
+		"tpope/vim-abolish",
 	},
 	{
 		"williamboman/mason.nvim",
@@ -242,7 +275,7 @@ return {
 				vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
 				vim.keymap.set("n", "cr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
 				vim.keymap.set({ "n", "x" }, "cf", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
-				vim.keymap.set("n", "ca", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+				vim.keymap.set("n", "<M-R>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 			end
 
 			lsp_zero.extend_lspconfig({
@@ -263,10 +296,18 @@ return {
 			require("conform").setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
-					javascript = { "prettierd", "prettier", stop_after_first = true },
-					typescript = { "prettierd", "prettier", stop_after_first = true },
-					typescriptreact = { "prettierd", "prettier", stop_after_first = true },
-					go = { { "gofmt", "-s" }, { "goimports", "-w" } },
+					javascript = { "prettierd", "prettier" },
+					typescript = { "prettierd", "prettier" },
+					typescriptreact = { "prettierd", "prettier" },
+					eruby = function(bufnr)
+						-- Check if the file is an ERB YAML file
+						local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
+						if filetype == "eruby.yaml" then
+							return { "yamlfix" }
+						else
+							return { "erb_format" }
+						end
+					end,
 				},
 				format_on_save = {
 					-- These options will be passed to conform.format()
@@ -274,12 +315,6 @@ return {
 					lsp_fallback = true,
 				},
 			})
-		end,
-	},
-	{
-		"zapling/mason-conform.nvim",
-		config = function()
-			require("mason-conform").setup()
 		end,
 	},
 	{
@@ -405,24 +440,72 @@ return {
 	-- 	dependencies = {
 	-- 		"nvim-lua/plenary.nvim",
 	-- 		"nvim-treesitter/nvim-treesitter",
-	-- 		"hrsh7th/nvim-cmp", -- Optional: For using slash commands and variables in the chat buffer
-	-- 		"nvim-telescope/telescope.nvim", -- Optional: For using slash commands
-	-- 		{ "stevearc/dressing.nvim", opts = {} }, -- Optional: Improves `vim.ui.select`
+	-- 		-- "hrsh7th/nvim-cmp", -- Optional: For using slash commands and variables in the chat buffer
+	-- 		-- "nvim-telescope/telescope.nvim", -- Optional: For using slash commands
+	-- 		-- { "stevearc/dressing.nvim", opts = {} }, -- Optional: Improves `vim.ui.select`
 	-- 	},
 	-- 	config = function()
-	-- 		require("codecompanion").setup()
+	-- 		require("codecompanion").setup({
+	-- 			display = {
+	-- 				chat = {
+	-- 					-- Change the default icons
+	-- 					icons = {
+	-- 						pinned_buffer = " ",
+	-- 						watched_buffer = "👀 ",
+	-- 					},
+	--
+	-- 					-- Alter the sizing of the debug window
+	-- 					debug_window = {
+	-- 						---@return number|fun(): number
+	-- 						width = vim.o.columns - 5,
+	-- 						---@return number|fun(): number
+	-- 						height = vim.o.lines - 2,
+	-- 					},
+	--
+	-- 					-- Options to customize the UI of the chat buffer
+	-- 					window = {
+	-- 						layout = "vertical", -- float|vertical|horizontal|buffer
+	-- 						position = "right", -- left|right|top|bottom (nil will default depending on vim.opt.plitright|vim.opt.splitbelow)
+	-- 						border = "solid",
+	-- 						height = 0.8,
+	-- 						width = 0.25,
+	-- 						relative = "editor",
+	-- 						opts = {
+	-- 							breakindent = true,
+	-- 							cursorcolumn = false,
+	-- 							cursorline = false,
+	-- 							foldcolumn = "0",
+	-- 							linebreak = true,
+	-- 							list = false,
+	-- 							numberwidth = 1,
+	-- 							signcolumn = "no",
+	-- 							spell = false,
+	-- 							wrap = true,
+	-- 						},
+	-- 					},
+	--
+	-- 					---Customize how tokens are displayed
+	-- 					---@param tokens number
+	-- 					---@param adapter CodeCompanion.Adapter
+	-- 					---@return string
+	-- 					token_count = function(tokens, adapter)
+	-- 						return " (" .. tokens .. " tokens)"
+	-- 					end,
+	-- 				},
+	-- 			},
+	-- 		})
 	--
 	-- 		vim.api.nvim_set_keymap("n", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
 	-- 		vim.api.nvim_set_keymap("v", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
 	-- 		vim.api.nvim_set_keymap(
 	-- 			"n",
-	-- 			"<LocalLeader>ai",
+	-- 			"<Leader>aa",
 	-- 			"<cmd>CodeCompanionChat Toggle<cr>",
 	-- 			{ noremap = true, silent = true }
 	-- 		)
 	-- 		vim.api.nvim_set_keymap(
 	-- 			"v",
-	-- 			"<LocalLeader>ai",
+	-- 			"<Leader>aa",
 	-- 			"<cmd>CodeCompanionChat Toggle<cr>",
 	-- 			{ noremap = true, silent = true }
 	-- 		)
@@ -439,6 +522,24 @@ return {
 		version = false, -- set this if you want to always pull the latest change
 		opts = {
 			-- add any opts here
+			provider = "gemini",
+			gemini = {
+				model = "gemini-2.5-pro-exp-03-25", -- your desired model (or use gpt-4o, etc.)
+				timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
+				temperature = 0,
+				--reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+			},
+			openai = {
+				endpoint = "https://api.openai.com/v1",
+				model = "o3-mini",
+				timeout = 600000,
+				temperature = 0,
+				max_tokens = 81920,
+				-- reasoning_effort = "high"
+			},
+			claude = {
+				disable_tools = true,
+			},
 		},
 		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
 		build = "make",
@@ -446,6 +547,8 @@ return {
 		behaviour = {
 			support_paste_from_clipboard = true,
 			minimize_diff = false,
+			enable_token_counting = false,
+			disabled_tools = { "python" },
 		},
 		file_selector = {
 			provider = "telescope",
@@ -486,13 +589,17 @@ return {
 					},
 				},
 			},
+		},
+		custom_tools = {
 			{
-				-- Make sure to set this up properly if you have lazy=true
-				"MeanderingProgrammer/render-markdown.nvim",
-				opts = {
-					file_types = { "markdown", "Avante" },
-				},
-				ft = { "markdown", "Avante" },
+				name = "run_rails_tests", -- Unique name for the tool
+				description = "Run Rails tests and return results", -- Description shown to AI
+				command = "go test -v ./...", -- Shell command to execute
+				returns = "test results",
+				func = function(params, on_log, on_complete) -- Custom function to execute
+					local target = params.target or ""
+					return vim.fn.system(string.format("bin/rails test %s", target))
+				end,
 			},
 		},
 	},
@@ -571,21 +678,37 @@ return {
 		end,
 	},
 	{
-		"christoomey/vim-tmux-navigator",
-		cmd = {
-			"TmuxNavigateLeft",
-			"TmuxNavigateDown",
-			"TmuxNavigateUp",
-			"TmuxNavigateRight",
-			"TmuxNavigatePrevious",
-			"TmuxNavigatorProcessList",
-		},
-		keys = {
-			{ "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-			{ "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
-			{ "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
-			{ "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
-			{ "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
-		},
+		"alexghergh/nvim-tmux-navigation",
+		config = function()
+			local nvim_tmux_nav = require("nvim-tmux-navigation")
+
+			nvim_tmux_nav.setup({
+				disable_when_zoomed = true, -- defaults to false
+			})
+
+			vim.keymap.set("n", "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
+			vim.keymap.set("n", "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
+			vim.keymap.set("n", "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
+			vim.keymap.set("n", "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
+			vim.keymap.set("n", "<C-\\>", nvim_tmux_nav.NvimTmuxNavigateLastActive)
+			vim.keymap.set("n", "<C-Space>", nvim_tmux_nav.NvimTmuxNavigateNext)
+		end,
 	},
+	{
+		"tpope/vim-rails",
+	},
+	-- {
+	-- 	"andymass/vim-matchup",
+	-- 	config = function()
+	-- 		require("nvim-treesitter.configs").setup({
+	-- 			matchup = {
+	-- 				enable = true, -- mandatory, false will disable the whole extension
+	-- 				disable = { "c", "ruby" }, -- optional, list of language that will be disabled
+	-- 				-- [options]
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
+	{ "RRethy/vim-illuminate" },
+	{ "kevinhwang91/nvim-bqf" },
 }

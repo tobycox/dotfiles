@@ -73,3 +73,5 @@ defaults write com.apple.screencapture location ~/Screenshots
 brew install --cask ghostty
 mkdir ~/.config/ghostty
 ln -s ~/dev/dotfiles/ghostty.config ~/.config/ghostty/config
+
+brew install sesh

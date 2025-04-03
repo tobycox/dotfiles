@@ -37,6 +37,9 @@ vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
 
+-- Close buffer
+vim.keymap.set("n", "<C-w>w", ":bd<CR>")
+
 -- Terminal navigation
 vim.keymap.set("t", "<C-[>", "<C-\\><C-n>")
 
@@ -94,25 +97,6 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 
-require("tabby").setup({
-	preset = "active_wins_at_tail",
-	option = {
-		theme = {
-			fill = "TabLineFill", -- tabline background
-			head = "TabLine", -- head element highlight
-			current_tab = "TabLineSel", -- current tab label highlight
-			tab = "TabLine", -- other tab label highlight
-			win = "TabLine", -- window highlight
-			tail = "TabLine", -- tail element highlight
-		},
-		nerdfont = true, -- whether use nerdfont
-		lualine_theme = nil, -- lualine theme name
-		buf_name = {
-			mode = "'unique'|'relative'|'tail'|'shorten'",
-		},
-	},
-})
-
 require("mason").setup()
 
 vim.lsp.set_log_level("debug")
@@ -151,3 +135,13 @@ vim.api.nvim_create_autocmd({ "CursorHold" }, {
 	command = "lua OpenDiagnosticIfNoFloat()",
 	group = "lsp_diagnostics_hold",
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "Avante*",
+	callback = function()
+		vim.keymap.set({ "n", "o" }, "<ESC>", "<Nop>", { buffer = true })
+	end,
+})
+
+vim.g.matchparen_timeout = 2
+vim.g.matchparen_insert_timeout = 2
