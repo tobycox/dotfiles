@@ -59,6 +59,18 @@
                                         "value": 1
                                     }
                                 ],
+                                "from": { "key_code": "c" },
+                                "to": [{ "shell_command": "open -a Notion\\ Calendar" }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "semicolon_modifier",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
                                 "from": { "key_code": "a" },
                                 "to": [{ "shell_command": "open -a Arc" }],
                                 "type": "basic"
@@ -84,7 +96,7 @@
                                     }
                                 ],
                                 "from": { "key_code": "d" },
-                                "to": [{ "shell_command": "open -a Beekeeper\\ Studio\\ Ultimate" }],
+                                "to": [{ "shell_command": "open -a Beekeeper\\ Studio" }],
                                 "type": "basic"
                             },
                             {

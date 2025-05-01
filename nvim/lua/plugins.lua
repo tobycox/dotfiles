@@ -57,6 +57,7 @@ return {
 		config = function()
 			require("mini.notify").setup()
 			require("mini.files").setup()
+			require("mini.surround").setup()
 			vim.keymap.set("n", "<leader>l", ':lua MiniFiles.open(vim.fn.expand("%:p:h"))<CR>')
 
 			require("mini.bracketed").setup()
@@ -284,10 +285,38 @@ return {
 				capabilities = require("cmp_nvim_lsp").default_capabilities(),
 			})
 
+			vim.o.updatetime = 250 -- ¼‑second cursor hold delay
+
+			vim.api.nvim_create_autocmd("CursorHold", {
+				callback = function()
+					vim.diagnostic.open_float(nil, { focus = false, scope = "cursor" })
+				end,
+			})
+
+			vim.diagnostic.config({
+				float = {
+					border = "rounded", -- 'single', 'double', 'shadow', etc.
+					source = "if_many", -- show the LSP name if there’s more than one
+					header = "", -- don’t waste a line on “Diagnostics”
+					focusable = false,
+					format = function(diag)
+						-- │ Error: something broke       eslint
+						local symbol = ({
+							[vim.diagnostic.severity.ERROR] = " ",
+							[vim.diagnostic.severity.WARN] = " ",
+							[vim.diagnostic.severity.INFO] = " ",
+							[vim.diagnostic.severity.HINT] = "󰌵 ",
+						})[diag.severity] or ""
+						return symbol .. diag.message
+					end,
+				},
+			})
+
 			require("lspconfig").eslint.setup({})
 			require("lspconfig").rubocop.setup({})
 			require("lspconfig").gopls.setup({})
 			require("lspconfig").tailwindcss.setup({})
+			require("lspconfig").ruby_lsp.setup({})
 		end,
 	},
 	{
@@ -296,9 +325,13 @@ return {
 			require("conform").setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
+					-- javascript = { "biome" },
+					-- typescript = { "biome" },
+					-- typescriptreact = { "biome" },
 					javascript = { "prettierd", "prettier" },
 					typescript = { "prettierd", "prettier" },
 					typescriptreact = { "prettierd", "prettier" },
+					ruby = { "rubocop" },
 					eruby = function(bufnr)
 						-- Check if the file is an ERB YAML file
 						local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
@@ -310,9 +343,11 @@ return {
 					end,
 				},
 				format_on_save = {
-					-- These options will be passed to conform.format()
+					lsp_format = "fallback",
 					timeout_ms = 500,
-					lsp_fallback = true,
+				},
+				format_after_save = {
+					lsp_format = "fallback",
 				},
 			})
 		end,
@@ -324,6 +359,7 @@ return {
 				keymaps = {
 					accept_suggestion = "<C-k>",
 				},
+				ignore_filetypes = { codecompanion = true },
 			})
 		end,
 	},
@@ -446,6 +482,14 @@ return {
 	-- 	},
 	-- 	config = function()
 	-- 		require("codecompanion").setup({
+	-- 			strategies = {
+	-- 				chat = {
+	-- 					adapter = "gemini",
+	-- 				},
+	-- 				inline = {
+	-- 					adapter = "gemini",
+	-- 				},
+	-- 			},
 	-- 			display = {
 	-- 				chat = {
 	-- 					-- Change the default icons
@@ -534,7 +578,7 @@ return {
 				model = "o3-mini",
 				timeout = 600000,
 				temperature = 0,
-				max_tokens = 81920,
+				max_tokens = 16384,
 				-- reasoning_effort = "high"
 			},
 			claude = {
