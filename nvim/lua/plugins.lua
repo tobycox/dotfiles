@@ -254,11 +254,10 @@ return {
 			vim.keymap.set("n", "<leader>gb", ":BlameToggle<CR>")
 		end,
 	},
-	{ "neovim/nvim-lspconfig" },
-	{ "hrsh7th/cmp-nvim-lsp" },
 	{
 		"neovim/nvim-lspconfig",
 	},
+	{ "hrsh7th/cmp-nvim-lsp" },
 	{
 		"VonHeikemen/lsp-zero.nvim",
 		config = function()
@@ -316,7 +315,15 @@ return {
 			require("lspconfig").rubocop.setup({})
 			require("lspconfig").gopls.setup({})
 			require("lspconfig").tailwindcss.setup({})
-			require("lspconfig").ruby_lsp.setup({})
+			require("lspconfig").ruby_lsp.setup({
+				init_options = {
+					addonSettings = {
+						["Ruby LSP Rails"] = {
+							enablePendingMigrationsPrompt = false,
+						},
+					},
+				},
+			})
 		end,
 	},
 	{
@@ -338,7 +345,7 @@ return {
 						if filetype == "eruby.yaml" then
 							return { "yamlfix" }
 						else
-							return { "erb_format" }
+							return { "erb_lint" }
 						end
 					end,
 				},
@@ -567,22 +574,30 @@ return {
 		opts = {
 			-- add any opts here
 			provider = "gemini",
-			gemini = {
-				model = "gemini-2.5-pro-exp-03-25", -- your desired model (or use gpt-4o, etc.)
-				timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-				temperature = 0,
-				--reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
-			},
-			openai = {
-				endpoint = "https://api.openai.com/v1",
-				model = "o3-mini",
-				timeout = 600000,
-				temperature = 0,
-				max_tokens = 16384,
-				-- reasoning_effort = "high"
-			},
-			claude = {
-				disable_tools = true,
+			mode = "legacy",
+			providers = {
+				gemini = {
+					model = "gemini-2.5-pro-preview-03-25", -- your desired model (or use gpt-4o, etc.)
+					extra_request_body = {
+						timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
+						temperature = 0,
+						--reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+					},
+				},
+				openai = {
+					endpoint = "https://api.openai.com/v1",
+					model = "o3-mini",
+					extra_request_body = {
+						timeout = 600000,
+						temperature = 0,
+						max_tokens = 16384,
+						-- reasoning_effort = "high"
+						request_body,
+					},
+				},
+				claude = {
+					disable_tools = true,
+				},
 			},
 		},
 		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`

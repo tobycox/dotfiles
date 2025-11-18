@@ -45,6 +45,8 @@ export PATH="/opt/homebrew/opt/python@3.8/bin:$PATH"
 # export PROJECT_HOME=$HOME/dev
 # source /opt/homebrew/bin/virtualenvwrapper.sh
 
+export PATH="$PATH:/Users/tobycox/go/bin"
+
 # Bun
 export PATH="/Users/tobycox/.bun/bin:$PATH"
 

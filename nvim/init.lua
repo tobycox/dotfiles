@@ -85,7 +85,9 @@ vim.opt.completeopt = "menu,menuone,noinsert"
 -- Blame
 
 -- Plugin Config
-require("lazy").setup("plugins", opts)
+require("lazy").setup("plugins", {
+	change_detection = { notify = false },
+})
 
 require("telescope").load_extension("file_browser")
 require("spider").setup()
@@ -116,3 +118,5 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.g.matchparen_timeout = 2
 vim.g.matchparen_insert_timeout = 2
+
+vim.keymap.set("n", "<leader>cp", ':let @+ = expand("%")<CR>', { silent = true })
